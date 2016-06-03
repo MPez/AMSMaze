@@ -6,34 +6,47 @@ private:
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
-	GLfloat a;
 	GLfloat dim;
+	GLfloat l;
+	GLfloat w;
+	GLfloat h;
 
 public:
 	Cubo(GLfloat dim, GLfloat x, GLfloat y, GLfloat z) 
-		: dim(dim), x(x), y(y), z(z), a(0) {}
+		: dim(dim), x(x), y(y), z(z) {}
+
+	Cubo(GLfloat l, GLfloat w, GLfloat h, GLfloat x, GLfloat y, GLfloat z) 
+		: l(l), w(w), h(h), x(x), y(y), z(z) {}
+
 	~Cubo() {}
 
-	static void impostaMateriale()
+	static void impostaMateriale(char material)
 	{
 
 		GLfloat ambientMaterial[] = {1.0, 1.0, 1.0, 1.0};
 		GLfloat diffuseMaterial[] = {1.0, 1.0, 1.0, 1.0};
-		GLfloat specularMaterial[] = {0.0, 0.0, 0.0, 1.0};
+		GLfloat specularMaterial_mattoni[] = {0.0, 0.0, 0.0, 1.0};
+		GLfloat specularMaterial_legno[] = {1.0, 1.0, 1.0, 1.0};
 		GLfloat shineMaterial[] = {30.0};
 
 		glMaterialfv(GL_FRONT, GL_AMBIENT, ambientMaterial);
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseMaterial);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial);
+		switch(material) {
+			case 'm':
+				glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial_mattoni);
+				break;
+			case 'l':
+				glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial_legno);
+			break;
+		}
 		glMaterialfv(GL_FRONT, GL_SHININESS, shineMaterial);
 	}
 
-	void disegnaCentro()
+	void disegna1()
 	{
 		glPushMatrix();
 
 		glTranslatef(x, y, z);
-		glRotatef(a, 0, 1, 0);
 
 		glBegin(GL_QUADS);
 	
@@ -102,54 +115,76 @@ public:
 		glPopMatrix();
 	}
 
-	void disegnaTerra()
+	void disegna3()
 	{
 		glPushMatrix();
 
 		glTranslatef(x, y, z);
-		glRotatef(a, 0, 1, 0);
 
 		glBegin(GL_QUADS);
 	
 		glNormal3f(0, 0, 1);
-		glVertex3f(dim, dim, dim);
-		glVertex3f(0, dim, dim);
-		glVertex3f(0, 0, dim);
-		glVertex3f(dim, 0, dim);
+		glTexCoord2f(1, 1);
+		glVertex3f(l, h, w);
+		glTexCoord2f(0, 1);
+		glVertex3f(-l, h, w);
+		glTexCoord2f(0, 0);
+		glVertex3f(-l, -h, w);
+		glTexCoord2f(1, 0);
+		glVertex3f(l, -h, w);
 		
 		glNormal3f(0, 0, -1);
-		glVertex3f(0, dim, 0);
-		glVertex3f(dim, dim, 0);
-		glVertex3f(dim, 0, 0);
-		glVertex3f(0, 0, 0);
+		glTexCoord2f(1, 1);
+		glVertex3f(-l, h, -w);
+		glTexCoord2f(0, 1);
+		glVertex3f(l, h, -w);
+		glTexCoord2f(0, 0);
+		glVertex3f(l, -h, -w);
+		glTexCoord2f(1, 0);
+		glVertex3f(-l, -h, -w);
 		
 		glNormal3f(1, 0, 0);
-		glVertex3f(dim, dim, 0);
-		glVertex3f(dim, dim, dim);
-		glVertex3f(dim, 0, dim);
-		glVertex3f(dim, 0, 0);
+		glTexCoord2f(1, 1);
+		glVertex3f(l, h, -w);
+		glTexCoord2f(0, 1);
+		glVertex3f(l, h, w);
+		glTexCoord2f(0, 0);
+		glVertex3f(l, -h, w);
+		glTexCoord2f(1, 0);
+		glVertex3f(l, -h, -w);
 		
 		glNormal3f(-1, 0, 0);
-		glVertex3f(0, dim, dim);
-		glVertex3f(0, dim, 0);
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, 0, dim);
+		glTexCoord2f(1, 1);
+		glVertex3f(-l, h, w);
+		glTexCoord2f(0, 1);
+		glVertex3f(-l, h, -w);
+		glTexCoord2f(0, 0);
+		glVertex3f(-l, -h, -w);
+		glTexCoord2f(1, 0);
+		glVertex3f(-l, -h, w);
 		
 		glNormal3f(0, 1, 0);
-		glVertex3f(dim, dim, 0);
-		glVertex3f(0, dim, 0);
-		glVertex3f(0, dim, dim);
-		glVertex3f(dim, dim, dim);
+		glTexCoord2f(1, 1);
+		glVertex3f(l, h, -w);
+		glTexCoord2f(0, 1);
+		glVertex3f(-l, h, -w);
+		glTexCoord2f(0, 0);
+		glVertex3f(-l, h, w);
+		glTexCoord2f(1, 0);
+		glVertex3f(l, h, w);
 		
 		glNormal3f(0, -1, 0);
-		glVertex3f(0, 0, 0);
-		glVertex3f(dim, 0, 0);
-		glVertex3f(dim, 0, dim);
-		glVertex3f(0, 0, dim);
+		glTexCoord2f(1, 1);
+		glVertex3f(-l, -h, -w);
+		glTexCoord2f(0, 1);
+		glVertex3f(l, -h, -w);
+		glTexCoord2f(0, 0);
+		glVertex3f(l, -h, w);
+		glTexCoord2f(1, 0);
+		glVertex3f(-l, -h, w);
 		
 		glEnd();
 
-		glPopMatrix();	
+		glPopMatrix();
 	}
-	
 };

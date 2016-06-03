@@ -8,6 +8,8 @@ class Parser
 private:
 	int row;
 	int col;
+	float start_r;
+	float start_c;
 	std::vector<int> maze;
 
 public:
@@ -24,6 +26,16 @@ public:
 		return col;
 	}
 
+	float getStart_r()
+	{
+		return start_r;
+	}
+
+	float getStart_c()
+	{
+		return start_c;
+	}
+
 	std::vector<int> parseInput(std::string file) 
 	{
 		std::ifstream input(file, std::ifstream::in);
@@ -33,6 +45,10 @@ public:
 		row = atoi(s);
 		input.getline(s, 256);
 		col = atoi(s);
+		input.getline(s, 256);
+		start_r = atof(s);
+		input.getline(s, 256);
+		start_c = atof(s);
 
 		while(input.getline(s, col+1))
 		{

@@ -19,12 +19,13 @@ static const GLfloat DIM_CUBO = 0.5f;
 
 std::vector<int> maze;
 Parser parser;
-GLubyte brickTexture[256 * 256 *3];
+GLubyte mattoniTexture[256 * 256 * 3];
+GLubyte legnoTexture[256 * 256 * 3];
 
 struct
 {
 	GLfloat x = 0;
-	GLfloat y = -1.5;
+	GLfloat y = 0;
 	GLfloat z = 0;
 	GLfloat ay = 0;
 	GLfloat ax = 0;
@@ -46,6 +47,9 @@ int main(int argc, char *argv[])
 {
 	parser = Parser();
 	maze = parser.parseInput("input_maze.txt");
+	camera.x = parser.getStart_c() - 1.0f;
+	camera.z = -parser.getStart_r() + 1.0f;
+	camera.y = -1.5f;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -54,6 +58,8 @@ int main(int argc, char *argv[])
 	glutCreateWindow(TITOLO);
 
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -81,34 +87,21 @@ void DisegnaTutto()
 	glRotatef(-camera.ax, 1, 0, 0);
 	glTranslatef(-camera.x, -camera.y, -camera.z);
 
-	//DisegnaLineePavimento();
+	printf("x: %f, y: %f, z: %f\n", camera.x, camera.y, camera.z);
 
-	//glColor3f(0.0f, 0.0f, 1.0f);
-	// Cubo cubo1(0.5f, -1.0f, -1.5f, -2.0f);
-	// cubo1.disegnaCentro();
+	DisegnaLineePavimento();
 
-	// Cubo cubo2(0.5f, -1.0f, -1.5f, -3.0f);
-	// cubo2.disegnaCentro();
-
-	// Cubo cubo3(0.5f, -1.0f, -1.5f, -4.0f);
-	// cubo3.disegnaCentro();
-
-	// Cubo cubo4(0.5f, 1.0f, -1.5f, -2.0f);
-	// cubo4.disegnaCentro();
-
-	// Cubo cubo5(0.5f, 1.0f, -1.5f, -3.0f);
-	// cubo5.disegnaCentro();
-
-	// Cubo cubo6(0.5f, 1.0f, -1.5f, -4.0f);
-	// cubo6.disegnaCentro();
-
-
-
-
-	Cubo::impostaMateriale();
 	glEnable(GL_TEXTURE_2D);
+
+	Cubo::impostaMateriale('m');
 	glBindTexture(GL_TEXTURE_2D, 1);
 	DisegnaMaze();
+
+	Cubo::impostaMateriale('l');
+	glBindTexture(GL_TEXTURE_2D, 2);
+	Cubo cubo1(5.5f, 5.0f, 0.05f, 5.0f, -2.05f, -5.5f);
+	cubo1.disegna3();
+
 
 
 	glutSwapBuffers();
@@ -132,30 +125,38 @@ void AzioneTasto(unsigned char t, int , int)
 		case('w'):
 			camera.z -= (0.5f * cos(camera.ay / PI_180));
 			camera.x -= (0.5f * sin(camera.ay / PI_180));
+			printf("Passo avanti\n");
 			break;
 		case('a'):
 			camera.x -= (0.5f * cos(-camera.ay / PI_180));
 			camera.z -= (0.5f * sin(-camera.ay / PI_180));
+			printf("Passo sinistra\n");
 			break;
 		case('s'):
 			camera.z += (0.5f * cos(camera.ay / PI_180));
 			camera.x += (0.5f * sin(camera.ay / PI_180));
+			printf("Passo indietro\n");
 			break;
 		case('d'):
 			camera.x += (0.5f * cos(-camera.ay / PI_180));
 			camera.z += (0.5f * sin(-camera.ay / PI_180));
+			printf("Passo destra\n");
 			break;
 		case('q'):
 			camera.ay += 5.0;
+			printf("Gira sinistra\n");
 			break;
 		case('e'):
 			camera.ay -= 5.0;
+			printf("Gira destra\n");
 			break;
 		case('z'):
 			camera.y -= 0.5;
+			printf("Scendi\n");
 			break;
 		case('c'):
 			camera.y += 0.5;
+			printf("Sali\n");
 			break;
 	}
 	
@@ -187,8 +188,8 @@ void DisegnaMaze()
 		{
 			if (maze[i * parser.getCol() + j])
 			{
-				Cubo cubo(DIM_CUBO, i, -1.5, -j);
-				cubo.disegnaCentro();
+				Cubo cubo(DIM_CUBO, j, -1.5, -i - 1.0f);
+				cubo.disegna1();
 			}
 		}
 	}
@@ -196,8 +197,6 @@ void DisegnaMaze()
 
 void DisegnaLuci()
 {
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
 	GLfloat lightPosition[] = {10.0, 10.0, 0.0, 0.0};
@@ -215,10 +214,20 @@ void caricaTexture()
 {
 	FILE *texture = fopen("mattoni.raw", "rb");
 	if (texture == NULL) {
+		printf("Apertura texture mattoni fallita.\n");
 		return;
 	}
-	fread(brickTexture, 256 *256, 3, texture);
+	fread(mattoniTexture, 256 *256, 3, texture);
 	fclose(texture);
+
+	texture = fopen("legno_256.raw", "rb");
+	if (texture == NULL) {
+		printf("Apertura texture legno_256 fallita.\n");
+		return;
+	}
+	fread(legnoTexture, 256 *256, 3, texture);
+	fclose(texture);
+
 }
 
 void ImpostaTexture()
@@ -227,6 +236,13 @@ void ImpostaTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, GL_RGB, GL_UNSIGNED_BYTE, brickTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, 
+		GL_RGB, GL_UNSIGNED_BYTE, mattoniTexture);
     
+	glBindTexture(GL_TEXTURE_2D, 2);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, 
+		GL_RGB, GL_UNSIGNED_BYTE, legnoTexture);
 }
