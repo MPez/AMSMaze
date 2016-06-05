@@ -16,6 +16,9 @@
 static const char* TITOLO = "AMSMaze";
 static const GLfloat PI_180 = 180.0f / 3.141592f;
 static const GLfloat DIM_CUBO = 0.5f;
+static const GLfloat DIM_CAMERA = 0.125f;
+static const GLfloat SPOSTAMENTO = 0.125f;
+static const GLfloat ANGOLO = 2.5f;
 
 std::vector<int> maze;
 Parser parser;
@@ -31,25 +34,26 @@ struct
 	GLfloat ax = 0;
 } camera;
 
-
-
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
 void AzioneTasto(unsigned char tasto, int x, int y);
 
 void DisegnaLineePavimento();
-void DisegnaMaze();
+void DisegnaMaze(GLfloat dim);
+void DisegnaPavimento(GLfloat dim);
 void DisegnaLuci();
 void caricaTexture();
 void ImpostaTexture();
+bool controllaSpostamento(GLfloat x, GLfloat z);
 
 int main(int argc, char *argv[])
 {
 	parser = Parser();
 	maze = parser.parseInput("input_maze.txt");
+
 	camera.x = parser.getStart_c() - 1.0f;
 	camera.z = -parser.getStart_r() + 1.0f;
-	camera.y = -1.5f;
+	camera.y = DIM_CUBO;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -87,7 +91,8 @@ void DisegnaTutto()
 	glRotatef(-camera.ax, 1, 0, 0);
 	glTranslatef(-camera.x, -camera.y, -camera.z);
 
-	printf("x: %f, y: %f, z: %f\n", camera.x, camera.y, camera.z);
+	printf("x: %f, y: %f, z: %f, a: %f\n\n", 
+		camera.x, camera.y, camera.z, camera.ay);
 
 	DisegnaLineePavimento();
 
@@ -95,12 +100,11 @@ void DisegnaTutto()
 
 	Cubo::impostaMateriale('m');
 	glBindTexture(GL_TEXTURE_2D, 1);
-	DisegnaMaze();
+	DisegnaMaze(DIM_CUBO);
 
 	Cubo::impostaMateriale('l');
 	glBindTexture(GL_TEXTURE_2D, 2);
-	Cubo cubo1(5.5f, 5.0f, 0.05f, 5.0f, -2.05f, -5.5f);
-	cubo1.disegna3();
+	DisegnaPavimento(DIM_CUBO);
 
 
 
@@ -113,7 +117,7 @@ void CambiaDimensione(int w, int h)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 50);
+	glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 100);
 	//gluPerspective(30, 1.0, 1.0, 20.0);
 }
 
@@ -123,31 +127,83 @@ void AzioneTasto(unsigned char t, int , int)
 	switch(t)
 	{
 		case('w'):
-			camera.z -= (0.5f * cos(camera.ay / PI_180));
-			camera.x -= (0.5f * sin(camera.ay / PI_180));
-			printf("Passo avanti\n");
+			{
+				GLfloat z = -SPOSTAMENTO * cos(camera.ay / PI_180);
+				GLfloat x = -SPOSTAMENTO * sin(camera.ay / PI_180);
+				printf("Spostamento x: %f, z: %f\n", x, z);
+				if (controllaSpostamento(x, z))
+				{
+					camera.z += z;
+					camera.x += x;
+					printf("Passo avanti\n");
+					//printf("Spostamento x: %f, z: %f\n", x, z);
+					//aggiornaPosizione(x, z);
+				} else
+				{
+					printf("Collisione muro avanti\n");
+				}
+			}
 			break;
 		case('a'):
-			camera.x -= (0.5f * cos(-camera.ay / PI_180));
-			camera.z -= (0.5f * sin(-camera.ay / PI_180));
-			printf("Passo sinistra\n");
+			{
+				GLfloat x = -SPOSTAMENTO * cos(-camera.ay / PI_180);
+				GLfloat z = -SPOSTAMENTO * sin(-camera.ay / PI_180);
+				printf("Spostamento x: %f, z: %f\n", x, z);
+				if (controllaSpostamento(x, z))
+				{
+					camera.x += x;
+					camera.z += z;
+					printf("Passo sinistra\n");
+				} else
+				{
+					printf("Collisione muro sinistra\n");
+				}
+				//printf("Spostamento x: %f, z: %f\n", x, z);
+				//aggiornaPosizione(x, z);
+			}
 			break;
 		case('s'):
-			camera.z += (0.5f * cos(camera.ay / PI_180));
-			camera.x += (0.5f * sin(camera.ay / PI_180));
-			printf("Passo indietro\n");
+			{
+				GLfloat z = SPOSTAMENTO * cos(camera.ay / PI_180);
+				GLfloat x = SPOSTAMENTO * sin(camera.ay / PI_180);
+				printf("Spostamento x: %f, z: %f\n", x, z);
+				if (controllaSpostamento(x, z))
+				{
+					camera.z += z;
+					camera.x += x;
+					printf("Passo indietro\n");
+				} else 
+				{
+					printf("Collisione muro indietro\n");
+				}
+				//printf("Spostamento x: %f, z: %f\n", x, z);
+				//aggiornaPosizione(x, z);
+			}
 			break;
 		case('d'):
-			camera.x += (0.5f * cos(-camera.ay / PI_180));
-			camera.z += (0.5f * sin(-camera.ay / PI_180));
-			printf("Passo destra\n");
+			{
+				GLfloat x = SPOSTAMENTO * cos(-camera.ay / PI_180);
+				GLfloat z = SPOSTAMENTO * sin(-camera.ay / PI_180);
+				printf("Spostamento x: %f, z: %f\n", x, z);
+				if (controllaSpostamento(x, z))
+				{
+					camera.x += x;
+					camera.z += z;
+					printf("Passo destra\n");
+				} else 
+				{
+					printf("Collisione muro destra\n");
+				}
+				//printf("Spostamento x: %f, z: %f\n", x, z);
+				//aggiornaPosizione(x, z);
+			}
 			break;
 		case('q'):
-			camera.ay += 5.0;
+			camera.ay += ANGOLO;
 			printf("Gira sinistra\n");
 			break;
 		case('e'):
-			camera.ay -= 5.0;
+			camera.ay -= ANGOLO;
 			printf("Gira destra\n");
 			break;
 		case('z'):
@@ -163,24 +219,120 @@ void AzioneTasto(unsigned char t, int , int)
 	glutPostRedisplay();
 }
 
+bool controllaSpostamento(GLfloat x, GLfloat z)
+{
+	int i;
+	int j;
+
+	if (camera.z < 0.0)
+	{
+		// avanti
+		if (z < -0.1)
+		{
+			i = (int) abs(floor(camera.z + z - DIM_CAMERA));
+		}
+		else
+		{
+			// indietro
+			if (z > 0.1)
+			{
+				i = (int) abs(ceil(camera.z + z + DIM_CAMERA));
+			}
+			// destra o sinistra
+			else
+			{
+				i = (int) abs(round(camera.z + z));
+			}
+		}
+
+		// sinistra
+		if (x < -0.1)
+		{
+			j = (int) abs(floor(camera.x + x - DIM_CAMERA));
+		}
+		else
+		{
+			// destra
+			if (x > 0.1)
+			{
+				j = (int) abs(ceil(camera.x + x + DIM_CAMERA));
+			}
+			// avanti o indietro
+			else
+			{
+				j = (int) abs(round(camera.x + x));
+			}
+		}
+	}
+	else
+	{
+		// indietro
+		if (z < -0.1)
+		{
+			i = (int) abs(floor(camera.z + z - DIM_CAMERA));
+		}
+		else
+		{
+			// avanti
+			if (z > 0.1)
+			{
+				i = (int) abs(ceil(camera.z + z + DIM_CAMERA));
+			}
+			// sinistra o destra
+			else
+			{
+				i = (int) abs(camera.z + z + DIM_CAMERA);
+			}
+		}
+
+		// destra
+		if (x < -0.1)
+		{
+			j = (int) abs(floor(camera.x + x - DIM_CAMERA));
+		}
+		else
+		{
+			// sinistra
+			if (x > 0.1)
+			{
+				j = (int) abs(ceil(camera.x + x + DIM_CAMERA));
+			}
+			// avanti o indietro
+			else
+			{
+				j = (int) abs(camera.x + x + DIM_CAMERA);
+			}
+		}
+	}
+
+
+
+	printf("Controllo z: %f, x: %f, i:%i, j: %i\n", z, x, i, j);
+	if (!maze[i * parser.getCol() + j])
+	{
+		return true;
+	}
+	return false;
+}
+
 void DisegnaLineePavimento() {
 	glBegin(GL_LINES);
 	glColor3f(0.0f, 1.0f, 0.0f);
 
 	for(GLfloat i = -200; i < 200; i += 1) {
-		glVertex3f(-200, -2, i);
-		glVertex3f(200, -2, i);
+		glVertex3f(-200, 0, i);
+		glVertex3f(200, 0, i);
 	}
 
 	for(GLfloat i = -200; i < 200; i += 1) {
-		glVertex3f(i, -2, -200);
-		glVertex3f(i, -2, 200);
+		glVertex3f(i, 0, -200);
+		glVertex3f(i, 0, 200);
 	}
 
 	glEnd();
 }
 
-void DisegnaMaze()
+void DisegnaMaze(GLfloat dim)
 {
 	for (int i = 0; i < parser.getRow(); ++i)
 	{
@@ -188,11 +340,23 @@ void DisegnaMaze()
 		{
 			if (maze[i * parser.getCol() + j])
 			{
-				Cubo cubo(DIM_CUBO, j, -1.5, -i - 1.0f);
+				Cubo cubo(dim, j, dim, -i - 1.0f);
 				cubo.disegna1();
 			}
 		}
 	}
+}
+
+void DisegnaPavimento(GLfloat dim)
+{
+	for (int i = 0; i < parser.getRow(); ++i)
+		{
+			for (int j = 0; j < parser.getCol(); ++j)
+			{
+				Cubo cubo1(dim, dim, 0.05f, j, -0.05f, -i - 1.0f);
+				cubo1.disegna3();
+			}
+		}	
 }
 
 void DisegnaLuci()
