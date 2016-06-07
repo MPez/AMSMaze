@@ -4,35 +4,31 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <math.h>
-#include "GL/glut.h"
-
 #include <vector>
+#include <GL/glut.h>
 
-#include "Cubo.cpp"
-#include "Parser.cpp"
-
-static const char* TITOLO = "AMSMaze";
-static const GLfloat PI_180 = 180.0f / 3.141592f;
-static const GLfloat DIM_CUBO = 0.5f;
-static const GLfloat DIM_CAMERA = 0.125f;
-static const GLfloat SPOSTAMENTO = 0.125f;
-static const GLfloat ANGOLO = 2.5f;
-
-std::vector<int> maze;
-Parser parser;
-GLubyte mattoniTexture[256 * 256 * 3];
-GLubyte legnoTexture[256 * 256 * 3];
+#include "Cubo.h"
+#include "Maze.h"
+#include "Game.h"
 
 struct
 {
-	GLfloat x = 0;
-	GLfloat y = 0;
-	GLfloat z = 0;
-	GLfloat ay = 0;
-	GLfloat ax = 0;
+	GLfloat x = 0.0f;
+	GLfloat y = 0.0f;
+	GLfloat z = 0.0f;
+	GLfloat ay = 0.0f;
+	GLfloat ax = 0.0f;
 } camera;
+
+
+struct
+{
+	int prev_x = 0;
+	int prev_z = 0;
+	int cur_x = 0;
+	int cur_z = 0;
+} posizione;
 
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
@@ -48,8 +44,8 @@ bool controllaSpostamento(GLfloat x, GLfloat z);
 
 int main(int argc, char *argv[])
 {
-	parser = Parser();
-	maze = parser.parseInput("input_maze.txt");
+	Maze maze();
+	maze.parseInput("input_maze.txt");
 
 	camera.x = parser.getStart_c() - 1.0f;
 	camera.z = -parser.getStart_r() + 1.0f;
@@ -224,11 +220,14 @@ bool controllaSpostamento(GLfloat x, GLfloat z)
 	int i;
 	int j;
 
-	
+	i = (int) abs(round(camera.z + z));
+	j = (int) abs(round(camera.x + x));
 
 
-	printf("Controllo z: %f, x: %f, i:%i, j: %i\n", z, x, i, j);
-	if (!maze[i * parser.getCol() + j])
+	printf("Controllo camera.z: %f, z: %f, camera.x: %f x: %f, i:%i, j: %i\n", 
+		z, camera.z, x, camera.x, i, j);
+
+	if (!Maze[i * parser.getCol() + j])
 	{
 		return true;
 	}
@@ -258,7 +257,7 @@ void DisegnaMaze(GLfloat dim)
 	{
 		for (int j = 0; j < parser.getCol(); ++j)
 		{
-			if (maze[i * parser.getCol() + j])
+			if (Maze[i * parser.getCol() + j])
 			{
 				Cubo cubo(dim, j, dim, -i - 1.0f);
 				cubo.disegna1();
@@ -294,39 +293,6 @@ void DisegnaLuci()
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
-void caricaTexture()
-{
-	FILE *texture = fopen("mattoni.raw", "rb");
-	if (texture == NULL) {
-		printf("Apertura texture mattoni fallita.\n");
-		return;
-	}
-	fread(mattoniTexture, 256 *256, 3, texture);
-	fclose(texture);
 
-	texture = fopen("legno_256.raw", "rb");
-	if (texture == NULL) {
-		printf("Apertura texture legno_256 fallita.\n");
-		return;
-	}
-	fread(legnoTexture, 256 *256, 3, texture);
-	fclose(texture);
 
-}
 
-void ImpostaTexture()
-{
-	glBindTexture(GL_TEXTURE_2D, 1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, 
-		GL_RGB, GL_UNSIGNED_BYTE, mattoniTexture);
-    
-	glBindTexture(GL_TEXTURE_2D, 2);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, 
-		GL_RGB, GL_UNSIGNED_BYTE, legnoTexture);
-}
