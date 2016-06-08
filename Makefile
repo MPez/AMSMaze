@@ -1,17 +1,13 @@
-SHELL=/bin/bash
-
 CC=g++
+CPPFLAGS=-lGL -lGLU -lglut
 
-OBJECTS=AMSmaze.o Camera.o Cubo.o Game.o Maze.o ResourceManager.o
-SRCS=AMSmaze.cpp Camera.cpp Cubo.cpp Game.cpp Maze.cpp ResourceManager.cpp
+SOURCES=main.cpp Cubo.cpp Maze.cpp ResourceManager.cpp
+EXECUTABLE=AMSmaze
 
-AMSmaze: $(OBJECTS)
-	$(CC) -o $@ $<
+all:
+	$(CC) $(SOURCES) -o $(EXECUTABLE) $(CPPFLAGS)
 
-AMSmaze.o: $(SRCS)
-	$(CC) -c -o $@ $<
-	
-clean:
-	rm -f *.o
-	
 .PHONY: clean
+clean:
+	rm AMSmaze
+

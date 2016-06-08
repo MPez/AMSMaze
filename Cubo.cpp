@@ -1,4 +1,4 @@
-#include "include/Cubo.h"
+#include "Cubo.h"
 
 Cubo::Cubo(GLfloat dim, GLfloat x, GLfloat y, GLfloat z)
         : dim(dim), x(x), y(y), z(z) {}

@@ -3,7 +3,7 @@
 //
 
 #include <cstdio>
-#include "include/ResourceManager.h"
+#include "ResourceManager.h"
 
 
 void ResourceManager::caricaTexture()

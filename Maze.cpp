@@ -3,9 +3,8 @@
 #include <math.h>
 #include <iostream>
 
-#include "include/Maze.h"
-#include "include/Cubo.h"
-#include "include/Camera.h"
+#include "Maze.h"
+#include "Cubo.h"
 
 Maze::Maze() { }
 
@@ -99,6 +98,7 @@ void Maze::parseInput(const char *file)
         std::getline(input, line);
         std::istringstream sstream(line);
         sstream >> row >> col >> start_r >> start_c;
+        printf("row: %i, col: %i, start_r: %f, start_c: %f\n", row, col, start_r, start_c);
         GLuint intLine;
 
         while(std::getline(input, line))

@@ -3,14 +3,16 @@ project(AMSMaze)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lGL -lGLU -lglut")
 
-include_directories(include)
-
 set(SOURCE_FILES
         Cubo.cpp
+        Cubo.h
         Game.cpp
-        AMSmaze.cpp
+        Game.h
+        main.cpp
         Maze.cpp
+        Maze.h
         ResourceManager.cpp
-        Camera.cpp)
+        ResourceManager.h
+        Util.h)
 
-add_executable(AMSMaze ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
