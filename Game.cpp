@@ -2,4 +2,9 @@
 // Created by marco on 07/06/16.
 //
 
-#include "Game.h"
+#include "include/Game.h"
+#include "include/Cubo.h"
+
+Game::Game() { }
+
+

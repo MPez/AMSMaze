@@ -3,12 +3,12 @@
 //
 
 #include <cstdio>
-#include "ResourceManager.h"
+#include "include/ResourceManager.h"
 
 
 void ResourceManager::caricaTexture()
 {
-    FILE *texture = fopen("mattoni.raw", "rb");
+    FILE *texture = fopen(mattoniFile, "rb");
     if (texture == NULL) {
         printf("Apertura texture mattoni fallita.\n");
         return;
@@ -16,7 +16,7 @@ void ResourceManager::caricaTexture()
     fread(mattoniTexture, 256 *256, 3, texture);
     fclose(texture);
 
-    texture = fopen("legno_256.raw", "rb");
+    texture = fopen(legnoFile, "rb");
     if (texture == NULL) {
         printf("Apertura texture legno_256 fallita.\n");
         return;
@@ -25,7 +25,7 @@ void ResourceManager::caricaTexture()
     fclose(texture);
 }
 
-void ResourceManager::ImpostaTexture()
+void ResourceManager::impostaTexture()
 {
     glBindTexture(GL_TEXTURE_2D, 1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
