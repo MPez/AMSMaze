@@ -4,29 +4,35 @@
 #include <iostream>
 
 #include "Maze.h"
-#include "Cubo.h"
 
 Maze::Maze() { }
 
-Maze::~Maze() { }
-
-bool Maze::controllaSpostamento(GLfloat x, GLfloat z, Camera camera)
+Maze::~Maze()
 {
-    int i;
-    int j;
+    for (int i = 0; i < cubi.size(); ++i) {
+        delete cubi[i];
+    }
+}
 
-    i = (int) abs(round(camera.z + z));
-    j = (int) abs(round(camera.x + x));
+void Maze::controllaSpostamento(GLfloat x, GLfloat z, Camera &camera)
+{
+    int i, j;
+
+    i = (int) abs(round(camera.z + z + dimCamera * mysign(z)));
+    j = (int) abs(round(camera.x + x + dimCamera * mysign(x)));
 
 
-    printf("Controllo camera.z: %f, z: %f, camera.x: %f x: %f, i:%i, j: %i\n",
+    printf("Controllo camera.z: %f, camera.x: %f, z: %f, x: %f, i:%i, j: %i\n",
            z, camera.z, x, camera.x, i, j);
 
-    if (!maze[i][j])
+    if(!maze[i][j])
     {
-        return true;
+        camera.z += z;
+        camera.x += x;
     }
-    return false;
+    else
+    {
+    }
 }
 
 void Maze::disegnaMaze(GLfloat dim)
@@ -37,8 +43,9 @@ void Maze::disegnaMaze(GLfloat dim)
         {
             if (maze[i][j])
             {
-                Cubo cubo(dim, j, dim, -i - 1.0f);
-                cubo.disegna1();
+                Cubo *cubo = new Cubo(dim, j, dim, -i);
+                cubo->disegna3();
+                cubi.push_back(cubo);
             }
         }
     }
@@ -50,8 +57,8 @@ void Maze::disegnaPavimento(GLfloat dim)
     {
         for (int j = 0; j < col; ++j)
         {
-            Cubo cubo1(dim, dim, 0.05f, j, -0.05f, -i - 1.0f);
-            cubo1.disegna3();
+            Cubo cubo(dim, dim, 0.05f, j, -0.05f, -i);
+            cubo.disegna3();
         }
     }
 }
@@ -98,7 +105,6 @@ void Maze::parseInput(const char *file)
         std::getline(input, line);
         std::istringstream sstream(line);
         sstream >> row >> col >> start_r >> start_c;
-        printf("row: %i, col: %i, start_r: %f, start_c: %f\n", row, col, start_r, start_c);
         GLuint intLine;
 
         while(std::getline(input, line))
@@ -108,16 +114,14 @@ void Maze::parseInput(const char *file)
             while (sstream >> intLine)
             {
                 rowLine.push_back(intLine);
-                std::cout << intLine;
             }
-            std::cout << std::endl;
             maze.push_back(rowLine);
         }
+        input.close();
     }
     else
     {
         std::cout << "Errore apertura file input." << std::endl;
     }
 
-    input.close();
 }

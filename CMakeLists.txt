@@ -6,8 +6,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lGL -lGLU -lglut")
 set(SOURCE_FILES
         Cubo.cpp
         Cubo.h
-        Game.cpp
-        Game.h
         main.cpp
         Maze.cpp
         Maze.h

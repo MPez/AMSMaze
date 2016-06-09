@@ -10,18 +10,9 @@
 #include "ResourceManager.h"
 #include "Maze.h"
 
-static const GLchar *titolo = "AMSMaze";
-static const char *fileInput = "res/input_maze.txt";
-static const GLfloat pi_180 = 180.0f / 3.141592f;
-static const GLfloat dimCubo = 0.5f;
-static const GLfloat dimCamera = 0.125f;
-static const GLfloat spostamento = 0.125f;
-static const GLfloat angolo = 2.5f;
-
 Maze maze = Maze();
 ResourceManager resourceManager = ResourceManager();
 Camera camera;
-Posizione posizione;
 
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
@@ -34,9 +25,6 @@ int main(int argc, char *argv[])
     camera.x = maze.getStart_c() - 1.0f;
     camera.z = -maze.getStart_r() + 1.0f;
     camera.y = dimCubo;
-
-    printf("Main: x: %f, y: %f, z: %f\n\n",
-           camera.x, camera.y, camera.z);
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -73,8 +61,8 @@ void DisegnaTutto()
     glRotatef(-camera.ay, 0, 1, 0);
     glTranslatef(-camera.x, -camera.y, -camera.z);
 
-    printf("Disegna: x: %f, y: %f, z: %f, a: %f\n\n",
-           camera.x, camera.y, camera.z, camera.ay);
+    printf("Posizione z: %f, x: %f, y: %f, a: %f\n\n",
+           camera.z, camera.x, camera.y, camera.ay);
 
     maze.disegnaLineePavimento();
 
@@ -95,12 +83,28 @@ void DisegnaTutto()
 
 void CambiaDimensione(int w, int h)
 {
-    glViewport(0, 0, w, h);
+    if(w < h)
+    {
+        glViewport(0, (h - w)/2, w, w);
+    }
+    else
+    {
+        if(w > h)
+        {
+            glViewport((w - h)/2, 0, h, h);
+        }
+        else
+        {
+            glViewport(0, 0, w, h);
+        }
+    }
+
+
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 100);
-    //gluPerspective(30, 1.0, 1.0, 20.0);
+    //glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 100);
+    gluPerspective(30, 1.0, 0.05, 30.0);
 }
 
 
@@ -112,72 +116,36 @@ void AzioneTasto(unsigned char t, int , int)
         {
             GLfloat z = -spostamento * cos(camera.ay / pi_180);
             GLfloat x = -spostamento * sin(camera.ay / pi_180);
-            printf("Spostamento x: %f, z: %f\n", x, z);
-            if (maze.controllaSpostamento(x, z, camera))
-            {
-                camera.z += z;
-                camera.x += x;
-                printf("Passo avanti\n");
-                //printf("Spostamento x: %f, z: %f\n", x, z);
-                //aggiornaPosizione(x, z);
-            } else
-            {
-                printf("Collisione muro avanti\n");
-            }
+            printf("Spostamento z: %f, x: %f\n", z, x);
+            maze.controllaSpostamento(x, z, camera);
+
         }
             break;
         case('a'):
         {
             GLfloat x = -spostamento * cos(-camera.ay / pi_180);
-            GLfloat z = -spostamento * sin(-camera.ay / pi_180);
-            printf("Spostamento x: %f, z: %f\n", x, z);
-            if (maze.controllaSpostamento(x, z, camera))
-            {
-                camera.x += x;
-                camera.z += z;
-                printf("Passo sinistra\n");
-            } else
-            {
-                printf("Collisione muro sinistra\n");
-            }
-            //printf("Spostamento x: %f, z: %f\n", x, z);
-            //aggiornaPosizione(x, z);
+            GLfloat z = -spostamento * sin(-camera.ay / pi_180);;
+            printf("Spostamento z: %f, x: %f\n", z, x);
+            maze.controllaSpostamento(x, z, camera);
+
         }
             break;
         case('s'):
         {
             GLfloat z = spostamento * cos(camera.ay / pi_180);
-            GLfloat x = spostamento * sin(camera.ay / pi_180);
-            printf("Spostamento x: %f, z: %f\n", x, z);
-            if (maze.controllaSpostamento(x, z, camera))
-            {
-                camera.z += z;
-                camera.x += x;
-                printf("Passo indietro\n");
-            } else
-            {
-                printf("Collisione muro indietro\n");
-            }
-            //printf("Spostamento x: %f, z: %f\n", x, z);
-            //aggiornaPosizione(x, z);
+            GLfloat x = spostamento * sin(camera.ay / pi_180);;
+            printf("Spostamento z: %f, x: %f\n", z, x);
+            maze.controllaSpostamento(x, z, camera);
+
         }
             break;
         case('d'):
         {
             GLfloat x = spostamento * cos(-camera.ay / pi_180);
-            GLfloat z = spostamento * sin(-camera.ay / pi_180);
-            printf("Spostamento x: %f, z: %f\n", x, z);
-            if (maze.controllaSpostamento(x, z, camera))
-            {
-                camera.x += x;
-                camera.z += z;
-                printf("Passo destra\n");
-            } else
-            {
-                printf("Collisione muro destra\n");
-            }
-            //printf("Spostamento x: %f, z: %f\n", x, z);
-            //aggiornaPosizione(x, z);
+            GLfloat z = spostamento * sin(-camera.ay / pi_180);;
+            printf("Spostamento z: %f, x: %f\n", z, x);
+            maze.controllaSpostamento(x, z, camera);
+
         }
             break;
         case('q'):

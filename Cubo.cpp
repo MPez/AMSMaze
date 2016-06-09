@@ -1,7 +1,7 @@
 #include "Cubo.h"
 
 Cubo::Cubo(GLfloat dim, GLfloat x, GLfloat y, GLfloat z)
-        : dim(dim), x(x), y(y), z(z) {}
+        : l(dim), w(dim), h(dim), x(x), y(y), z(z) {}
 
 Cubo::Cubo(GLfloat l, GLfloat w, GLfloat h, GLfloat x, GLfloat y, GLfloat z)
         : l(l), w(w), h(h), x(x), y(y), z(z) {}
@@ -29,79 +29,6 @@ void Cubo::impostaMateriale(char materiale)
     }
 
     glMaterialfv(GL_FRONT, GL_SHININESS, shineMaterial);
-}
-
-void Cubo::disegna1()
-{
-    glPushMatrix();
-
-    glTranslatef(x, y, z);
-
-    glBegin(GL_QUADS);
-
-    glNormal3f(0, 0, 1);
-    glTexCoord2f(1, 1);
-    glVertex3f(dim, dim, dim);
-    glTexCoord2f(0, 1);
-    glVertex3f(-dim, dim, dim);
-    glTexCoord2f(0, 0);
-    glVertex3f(-dim, -dim, dim);
-    glTexCoord2f(1, 0);
-    glVertex3f(dim, -dim, dim);
-
-    glNormal3f(0, 0, -1);
-    glTexCoord2f(1, 1);
-    glVertex3f(-dim, dim, -dim);
-    glTexCoord2f(0, 1);
-    glVertex3f(dim, dim, -dim);
-    glTexCoord2f(0, 0);
-    glVertex3f(dim, -dim, -dim);
-    glTexCoord2f(1, 0);
-    glVertex3f(-dim, -dim, -dim);
-
-    glNormal3f(1, 0, 0);
-    glTexCoord2f(1, 1);
-    glVertex3f(dim, dim, -dim);
-    glTexCoord2f(0, 1);
-    glVertex3f(dim, dim, dim);
-    glTexCoord2f(0, 0);
-    glVertex3f(dim, -dim, dim);
-    glTexCoord2f(1, 0);
-    glVertex3f(dim, -dim, -dim);
-
-    glNormal3f(-1, 0, 0);
-    glTexCoord2f(1, 1);
-    glVertex3f(-dim, dim, dim);
-    glTexCoord2f(0, 1);
-    glVertex3f(-dim, dim, -dim);
-    glTexCoord2f(0, 0);
-    glVertex3f(-dim, -dim, -dim);
-    glTexCoord2f(1, 0);
-    glVertex3f(-dim, -dim, dim);
-
-    glNormal3f(0, 1, 0);
-    glTexCoord2f(1, 1);
-    glVertex3f(dim, dim, -dim);
-    glTexCoord2f(0, 1);
-    glVertex3f(-dim, dim, -dim);
-    glTexCoord2f(0, 0);
-    glVertex3f(-dim, dim, dim);
-    glTexCoord2f(1, 0);
-    glVertex3f(dim, dim, dim);
-
-    glNormal3f(0, -1, 0);
-    glTexCoord2f(1, 1);
-    glVertex3f(-dim, -dim, -dim);
-    glTexCoord2f(0, 1);
-    glVertex3f(dim, -dim, -dim);
-    glTexCoord2f(0, 0);
-    glVertex3f(dim, -dim, dim);
-    glTexCoord2f(1, 0);
-    glVertex3f(-dim, -dim, dim);
-
-    glEnd();
-
-    glPopMatrix();
 }
 
 void Cubo::disegna3()

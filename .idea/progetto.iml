@@ -5,13 +5,11 @@
       <sourceFolder url="file://$MODULE_DIR$/Maze.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Cubo.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Util.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Util.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ResourceManager.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Game.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ResourceManager.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Cubo.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Game.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Maze.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
