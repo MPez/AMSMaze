@@ -7,11 +7,19 @@
 
 static const GLchar *titolo = "AMSMaze";
 static const GLchar *fileInput = "res/input_maze.txt";
+static const GLchar *fileOutput = "res/output_maze.txt";
+static const int windowWidth = 600;
+static const int windowHeight = 600;
+static const int windowPosX = 100;
+static const int windowPosY = 100;
+
 static const GLfloat pi_180 = 180.0f / 3.141592f;
 static const GLfloat dimCubo = 0.5f;
 static const GLfloat dimCamera = 0.07f;
 static const GLfloat spostamento = 0.25f;
 static const GLfloat angolo = 2.5f;
+static const GLint heightMaze = 15;
+static const GLint widthMaze = 15;
 
 struct Camera
 {
@@ -31,32 +39,9 @@ inline GLfloat mysign(GLfloat f)
     return (f == 0.0f) ? 0.0f : -1.0f;
 }
 
-inline int myround(GLfloat f)
+struct Coppia
 {
-    return (f - ceil(f) < -0.9f) ? floor(f) : ceil(f);
-}
 
-inline int myround2(GLfloat f)
-{
-    return (f - ceil(f) < -0.1f) ? ceil(f) : floor(f);
-}
-
-inline int myround_pos(GLfloat f)
-{
-    if(f >= 0.0)
-    {
-        return (f - floor(f) > 0.8) ? ceil(f) : floor(f);
-    }
-    return (f - ceil(f) < -0.8) ? floor(f) : ceil(f);
-}
-
-inline int myround_neg(GLfloat f)
-{
-    if(f >= 0.0)
-    {
-        return (f - floor(f) < 0.8) ? ceil(f) : floor(f);
-    }
-    return (f - ceil(f) > -0.8) ? floor(f) : ceil(f);
-}
+};
 
 #endif //AMSMAZE_UTIL_H

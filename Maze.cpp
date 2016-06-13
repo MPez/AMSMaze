@@ -2,19 +2,16 @@
 #include <sstream>
 #include <math.h>
 #include <iostream>
+#include <stack>
+#include <stdlib.h>
 
 #include "Maze.h"
 
-Maze::Maze() { }
+Maze::Maze() {}
 
-Maze::~Maze()
-{
-    for (int i = 0; i < cubi.size(); ++i) {
-        delete cubi[i];
-    }
-}
+Maze::~Maze() {}
 
-void Maze::controllaSpostamento(GLfloat x, GLfloat z, Camera &camera)
+void Maze::eseguiSpostamento(GLfloat x, GLfloat z, Camera &camera)
 {
     int i, j;
 
@@ -32,7 +29,13 @@ void Maze::controllaSpostamento(GLfloat x, GLfloat z, Camera &camera)
     }
     else
     {
+        printf("collisione!!\n");
     }
+}
+
+void Maze::generaMaze()
+{
+
 }
 
 void Maze::disegnaMaze(GLfloat dim)
@@ -45,7 +48,6 @@ void Maze::disegnaMaze(GLfloat dim)
             {
                 Cubo *cubo = new Cubo(dim, j, dim, -i);
                 cubo->disegna3();
-                cubi.push_back(cubo);
             }
         }
     }
@@ -58,6 +60,18 @@ void Maze::disegnaPavimento(GLfloat dim)
         for (int j = 0; j < col; ++j)
         {
             Cubo cubo(dim, dim, 0.05f, j, -0.05f, -i);
+            cubo.disegna3();
+        }
+    }
+}
+
+void Maze::disegnaSoffitto(GLfloat dim)
+{
+    for (int i = 0; i < row; ++i)
+    {
+        for (int j = 0; j < col; ++j)
+        {
+            Cubo cubo(dim, dim, 0.05f, j, 1.05f, -i);
             cubo.disegna3();
         }
     }
@@ -82,17 +96,26 @@ void Maze::disegnaLineePavimento() {
 
 void Maze::disegnaLuci()
 {
-    glEnable(GL_LIGHT0);
+    GLfloat lightPosition[] = {camera.x, camera.y, camera.z + 2.0f, 1.0f};
+    GLfloat spotDirection[] = {0.0f, 0.0f, -1.0f};
 
-    GLfloat lightPosition[] = {10.0, 10.0, 0.0, 0.0};
-    GLfloat ambientLight[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat diffuseLight[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat specularLight[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat ambientLight[] = {1.0f, 1.0f, 0.6f, 1.0f};
+    GLfloat diffuseLight[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    GLfloat specularLight[] = {0.5f, 0.6f, 0.6f, 1.0f};
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
     glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.1f);
+    //glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.2f);
+    //glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.6f);
+
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30.0);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spotDirection);
+    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 5.0);
+
+    glEnable(GL_LIGHT0);
 }
 
 void Maze::parseInput(const char *file)
@@ -123,5 +146,18 @@ void Maze::parseInput(const char *file)
     {
         std::cout << "Errore apertura file input." << std::endl;
     }
+}
 
+void Maze::stampaMaze()
+{
+    std::ofstream output(fileOutput);
+
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < col; ++j) {
+            output << maze[i][j] << " ";
+        }
+        output << std::endl;
+    }
+
+    output.close();
 }

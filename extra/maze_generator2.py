@@ -39,7 +39,7 @@ while history:
     
     if len(check): # If there is a valid cell to move to.
         # Mark the walls between cells as open if we move
-        history.append([r,c])
+        history.append((r,c))
         move_direction = random.choice(check)
         if move_direction == 'L':
             M[r,c,0] = 1
@@ -63,20 +63,27 @@ while history:
     
          
 # Open the walls at the start and finish
-M[0,0,0] = 1
-M[num_rows-1,num_cols-1,2] = 1
-    
+M[0,0,1] = 1
+M[num_rows-1,num_cols-1,3] = 1
+
+output = open("input_maze.txt", "w");
+
 # Generate the image for display
 for row in range(0,num_rows):
     for col in range(0,num_cols):
         cell_data = M[row,col]
         for i in range(10*row+1,10*row+9):
             image[i,range(10*col+1,10*col+9)] = 255
-            if cell_data[0] == 1:image[range(10*row+1,10*row+9),10*col] = 255
-            if cell_data[1] == 1:image[10*row,range(10*col+1,10*col+9)] = 255
-            if cell_data[2] == 1:image[range(10*row+1,10*row+9),10*col+9] = 255
-            if cell_data[3] == 1:image[10*row+9,range(10*col+1,10*col+9)] = 255
+            if cell_data[0] == 1:
+                image[range(10*row+1,10*row+9),10*col] = 255
+            if cell_data[1] == 1:
+                image[10*row,range(10*col+1,10*col+9)] = 255
+            if cell_data[2] == 1:
+                image[range(10*row+1,10*row+9),10*col+9] = 255
+            if cell_data[3] == 1:
+                image[10*row+9,range(10*col+1,10*col+9)] = 255
 
+output.close();
 # Display the image
 plt.imshow(image, cmap = cm.Greys_r, interpolation='none')
 plt.show()

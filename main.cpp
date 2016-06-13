@@ -14,12 +14,19 @@ Maze maze = Maze();
 ResourceManager resourceManager = ResourceManager();
 Camera camera;
 
+GLfloat tempo = 0.0f;
+
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
 void AzioneTasto(unsigned char tasto, int x, int y);
+void Idle();
 
 int main(int argc, char *argv[])
 {
+    //srand(time(NULL));
+
+    //maze.generaMaze();
+    //maze.stampaMaze();
     maze.parseInput(fileInput);
 
     camera.x = maze.getStart_c() - 1.0f;
@@ -28,27 +35,38 @@ int main(int argc, char *argv[])
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutInitWindowPosition(100, 100);
-    glutInitWindowSize(450, 450);
+    glutInitWindowPosition(windowPosX, windowPosY);
+    glutInitWindowSize(windowWidth, windowHeight);
     glutCreateWindow(titolo);
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
+    GLfloat global[] = { 0.1, 0.1, 0.1, 1.0 };
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global);
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     maze.disegnaLuci();
+
     resourceManager.caricaTexture();
     resourceManager.impostaTexture();
 
     glutReshapeFunc(CambiaDimensione);
     glutDisplayFunc(DisegnaTutto);
     glutKeyboardFunc(AzioneTasto);
+    glutIdleFunc(Idle);
 
     glutMainLoop();
 
     return 0;
+}
+
+void Idle()
+{
+    tempo = glutGet(GLUT_ELAPSED_TIME);
+    printf("Tempo: %f\n", tempo);
 }
 
 void DisegnaTutto()
@@ -64,47 +82,50 @@ void DisegnaTutto()
     printf("Posizione z: %f, x: %f, y: %f, a: %f\n\n",
            camera.z, camera.x, camera.y, camera.ay);
 
-    maze.disegnaLineePavimento();
+    //maze.disegnaLineePavimento();
+
 
     glEnable(GL_TEXTURE_2D);
 
-    Cubo::impostaMateriale('m');
-    glBindTexture(GL_TEXTURE_2D, 1);
+    Cubo::impostaMateriale('b');
+    glBindTexture(GL_TEXTURE_2D, 3);
     maze.disegnaMaze(dimCubo);
 
     Cubo::impostaMateriale('l');
     glBindTexture(GL_TEXTURE_2D, 2);
     maze.disegnaPavimento(dimCubo);
 
-
+    Cubo::impostaMateriale('c');
+    glBindTexture(GL_TEXTURE_2D, 5);
+    maze.disegnaSoffitto(dimCubo);
 
     glutSwapBuffers();
 }
 
-void CambiaDimensione(int w, int h)
+void CambiaDimensione(int width, int height)
 {
-    if(w < h)
+    GLfloat r = (GLfloat) height / (GLfloat) width;
+
+    if(width < height)
     {
-        glViewport(0, (h - w)/2, w, w);
+        glViewport(0, (height - width)/2, width, width);
     }
     else
     {
-        if(w > h)
+        if(width > height)
         {
-            glViewport((w - h)/2, 0, h, h);
+            glViewport((width - height)/2, 0, height, height);
         }
         else
         {
-            glViewport(0, 0, w, h);
+            glViewport(0, 0, width, height);
         }
     }
-
-
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 100);
-    gluPerspective(30, 1.0, 0.05, 30.0);
+    gluPerspective(30, r, 0.05, 30.0);
 }
 
 
@@ -117,7 +138,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat z = -spostamento * cos(camera.ay / pi_180);
             GLfloat x = -spostamento * sin(camera.ay / pi_180);
             printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.controllaSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z, camera);
 
         }
             break;
@@ -126,7 +147,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat x = -spostamento * cos(-camera.ay / pi_180);
             GLfloat z = -spostamento * sin(-camera.ay / pi_180);;
             printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.controllaSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z, camera);
 
         }
             break;
@@ -135,7 +156,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat z = spostamento * cos(camera.ay / pi_180);
             GLfloat x = spostamento * sin(camera.ay / pi_180);;
             printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.controllaSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z, camera);
 
         }
             break;
@@ -144,7 +165,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat x = spostamento * cos(-camera.ay / pi_180);
             GLfloat z = spostamento * sin(-camera.ay / pi_180);;
             printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.controllaSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z, camera);
 
         }
             break;

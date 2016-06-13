@@ -8,23 +8,27 @@ Cubo::Cubo(GLfloat l, GLfloat w, GLfloat h, GLfloat x, GLfloat y, GLfloat z)
 
 Cubo::~Cubo() {}
 
+GLfloat Cubo::ambientMaterial[] = {1.0, 1.0, 1.0, 1.0};
+GLfloat Cubo::diffuseMaterial[] = {1.0, 1.0, 1.0, 1.0};
+GLfloat Cubo::specularMaterial_ceil[] = {1.0, 1.0, 1.0, 1.0};
+GLfloat Cubo::specularMaterial_legno[] = {0.6, 1.0, 0.7, 1.0};
+GLfloat Cubo::specularMaterial_brick[] = {0.5, 0.6, 0.6, 1.0};
+GLfloat Cubo::shineMaterial[] = {20.0};
+
 void Cubo::impostaMateriale(char materiale)
 {
-    GLfloat ambientMaterial[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat diffuseMaterial[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat specularMaterial_mattoni[] = {0.0, 0.0, 0.0, 1.0};
-    GLfloat specularMaterial_legno[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat shineMaterial[] = {30.0};
-
     glMaterialfv(GL_FRONT, GL_AMBIENT, ambientMaterial);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseMaterial);
 
     switch(materiale) {
-        case 'm':
-            glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial_mattoni);
+        case 'c':
+            glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial_ceil);
             break;
         case 'l':
             glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial_legno);
+            break;
+        case 'b':
+            glMaterialfv(GL_FRONT, GL_SPECULAR, specularMaterial_brick);
             break;
     }
 
