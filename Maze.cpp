@@ -7,11 +7,12 @@
 
 #include "Maze.h"
 
-Maze::Maze() {}
+Maze::Maze(Camera &camera) : camera(camera)
+{}
 
 Maze::~Maze() {}
 
-void Maze::eseguiSpostamento(GLfloat x, GLfloat z, Camera &camera)
+void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
 {
     int i, j;
 
@@ -33,9 +34,21 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z, Camera &camera)
     }
 }
 
-void Maze::generaMaze()
+void Maze::setStart()
 {
+    camera.x = start_c;
+    camera.z = -start_r;
+    camera.y = dimCubo;
+    camera.ay = 0.0f;
+}
 
+bool Maze::isExit()
+{
+    if((int) abs(round(camera.z)) == end_r && (int) abs(round(camera.x)) == end_c)
+    {
+        return true;
+    }
+    return false;
 }
 
 void Maze::disegnaMaze(GLfloat dim)
@@ -96,7 +109,7 @@ void Maze::disegnaLineePavimento() {
 
 void Maze::disegnaLuci()
 {
-    GLfloat lightPosition[] = {camera.x, camera.y, camera.z + 2.0f, 1.0f};
+    GLfloat lightPosition[] = {0.0f, 0.0f, 2.0f, 1.0f};
     GLfloat spotDirection[] = {0.0f, 0.0f, -1.0f};
 
     GLfloat ambientLight[] = {1.0f, 1.0f, 0.6f, 1.0f};
@@ -127,7 +140,7 @@ void Maze::parseInput(const char *file)
         std::string line;
         std::getline(input, line);
         std::istringstream sstream(line);
-        sstream >> row >> col >> start_r >> start_c;
+        sstream >> row >> col >> start_r >> start_c >> end_r >> end_c;
         GLuint intLine;
 
         while(std::getline(input, line))
@@ -146,18 +159,4 @@ void Maze::parseInput(const char *file)
     {
         std::cout << "Errore apertura file input." << std::endl;
     }
-}
-
-void Maze::stampaMaze()
-{
-    std::ofstream output(fileOutput);
-
-    for (int i = 0; i < row; ++i) {
-        for (int j = 0; j < col; ++j) {
-            output << maze[i][j] << " ";
-        }
-        output << std::endl;
-    }
-
-    output.close();
 }

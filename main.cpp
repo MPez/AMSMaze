@@ -11,9 +11,9 @@
 #include "ResourceManager.h"
 #include "Maze.h"
 
-Maze maze = Maze();
-ResourceManager resourceManager = ResourceManager();
 Camera camera;
+Maze maze = Maze(camera);
+ResourceManager resourceManager = ResourceManager();
 
 GLfloat tempo = 0.0f;
 
@@ -29,11 +29,9 @@ int main(int argc, char *argv[])
 
     //maze.generaMaze();
     //maze.stampaMaze();
-    maze.parseInput(fileInput);
+    maze.parseInput(fileOutput);
 
-    camera.x = maze.getStart_c() - 1.0f;
-    camera.z = -maze.getStart_r() + 1.0f;
-    camera.y = dimCubo;
+    maze.setStart();
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -68,7 +66,7 @@ int main(int argc, char *argv[])
 
 void TimerFunction(int val)
 {
-    if(startGioco)
+    if(startGioco && !endGioco)
     {
         tempoTrascorso = glutGet(GLUT_ELAPSED_TIME);
         secondiAlTermine = (tempoGioco - tempoTrascorso + tempoInizio) / 1000;
@@ -87,12 +85,9 @@ void TimerFunction(int val)
 
 void IdleFunction()
 {
-    if(secondiAlTermine <= 0)
+    if(secondiAlTermine <= 0 && !endGioco)
     {
-        camera.x = maze.getStart_c() - 1.0f;
-        camera.z = -maze.getStart_r() + 1.0f;
-        camera.y = dimCubo;
-        camera.ay = 0;
+        maze.setStart();
         startGioco = false;
         char title[50];
         sprintf(title, "Posizione: %i, %i   -   ",
@@ -100,6 +95,21 @@ void IdleFunction()
         strcat(title, titolo);
         glutSetWindowTitle(title);
     }
+
+    if(maze.isExit())
+    {
+        if(!endGioco)
+        {
+            endGioco = true;
+            tempoFine = glutGet(GLUT_ELAPSED_TIME);
+        }
+        char title[100];
+        sprintf(title, "Vittoria!!!   -   Completato in %i secondi e %i tentativ%c   -   ",
+            (tempoFine - tempoInizio) / 1000, tentativi, (tentativi > 1 ? 'i' : 'o'));
+        strcat(title, titolo);
+        glutSetWindowTitle(title);
+    }
+
     glutPostRedisplay();
 }
 
@@ -169,6 +179,7 @@ void AzioneTasto(unsigned char t, int , int)
     {
         startGioco = true;
         tempoInizio = glutGet(GLUT_ELAPSED_TIME);
+        tentativi += 1;
     }
 
     switch(t)
@@ -178,7 +189,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat z = -spostamento * cos(camera.ay / pi_180);
             GLfloat x = -spostamento * sin(camera.ay / pi_180);
             //printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.eseguiSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z);
 
         }
             break;
@@ -187,7 +198,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat x = -spostamento * cos(-camera.ay / pi_180);
             GLfloat z = -spostamento * sin(-camera.ay / pi_180);;
             //printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.eseguiSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z);
 
         }
             break;
@@ -196,7 +207,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat z = spostamento * cos(camera.ay / pi_180);
             GLfloat x = spostamento * sin(camera.ay / pi_180);;
             //printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.eseguiSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z);
 
         }
             break;
@@ -205,7 +216,7 @@ void AzioneTasto(unsigned char t, int , int)
             GLfloat x = spostamento * cos(-camera.ay / pi_180);
             GLfloat z = spostamento * sin(-camera.ay / pi_180);;
             //printf("Spostamento z: %f, x: %f\n", z, x);
-            maze.eseguiSpostamento(x, z, camera);
+            maze.eseguiSpostamento(x, z);
 
         }
             break;

@@ -17,16 +17,14 @@ private:
     GLuint col;
     GLfloat start_r;
     GLfloat start_c;
+    GLfloat end_r;
+    GLfloat end_c;
     std::vector<std::vector<GLuint>> maze;
-    Camera camera;
+    Camera &camera;
 
 public:
-    Maze();
+    Maze(Camera &camera);
     ~Maze();
-
-    void generaMaze();
-
-    void stampaMaze();
 
     void disegnaMaze(GLfloat dim);
 
@@ -38,17 +36,13 @@ public:
 
     void disegnaLuci();
 
-    void eseguiSpostamento(GLfloat x, GLfloat z, Camera &camera);
+    void eseguiSpostamento(GLfloat x, GLfloat z);
 
     void parseInput(const char *file);
 
-    GLfloat getStart_r() const {
-        return start_r;
-    }
+    void setStart();
 
-    GLfloat getStart_c() const {
-        return start_c;
-    }
+    bool isExit();
 };
 
 #endif //PROGETTO_MAZE_H
