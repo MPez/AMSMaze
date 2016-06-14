@@ -11,6 +11,6 @@ set(SOURCE_FILES
         Maze.h
         ResourceManager.cpp
         ResourceManager.h
-        Util.h Timer.cpp Timer.h)
+        Util.h Timer.cpp Timer.h Camera.cpp Camera.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

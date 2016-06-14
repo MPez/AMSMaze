@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <math.h>
 #include <GL/glut.h>
+#include <cstring>
 
 #include "Cubo.h"
 #include "ResourceManager.h"
@@ -19,7 +20,8 @@ GLfloat tempo = 0.0f;
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
 void AzioneTasto(unsigned char tasto, int x, int y);
-void Idle();
+void IdleFunction();
+void TimerFunction(int val);
 
 int main(int argc, char *argv[])
 {
@@ -56,17 +58,49 @@ int main(int argc, char *argv[])
     glutReshapeFunc(CambiaDimensione);
     glutDisplayFunc(DisegnaTutto);
     glutKeyboardFunc(AzioneTasto);
-    glutIdleFunc(Idle);
+    glutIdleFunc(IdleFunction);
+    glutTimerFunc(0, TimerFunction, 0);
 
     glutMainLoop();
 
     return 0;
 }
 
-void Idle()
+void TimerFunction(int val)
 {
-    tempo = glutGet(GLUT_ELAPSED_TIME);
-    printf("Tempo: %f\n", tempo);
+    if(startGioco)
+    {
+        tempoTrascorso = glutGet(GLUT_ELAPSED_TIME);
+        secondiAlTermine = (tempoGioco - tempoTrascorso + tempoInizio) / 1000;
+        char title[50];
+        sprintf(title, "Tempo: %i   -   Posizione: %i, %i   -   ",
+                secondiAlTermine, (int) abs(camera.z), (int) abs(camera.x));
+        strcat(title, titolo);
+        glutSetWindowTitle(title);
+        glutTimerFunc(250, TimerFunction, 0);
+    }
+    else
+    {
+        glutTimerFunc(0, TimerFunction, 0);
+    }
+}
+
+void IdleFunction()
+{
+    if(secondiAlTermine <= 0)
+    {
+        camera.x = maze.getStart_c() - 1.0f;
+        camera.z = -maze.getStart_r() + 1.0f;
+        camera.y = dimCubo;
+        camera.ay = 0;
+        startGioco = false;
+        char title[50];
+        sprintf(title, "Posizione: %i, %i   -   ",
+                (int) abs(camera.z), (int) abs(camera.x));
+        strcat(title, titolo);
+        glutSetWindowTitle(title);
+    }
+    glutPostRedisplay();
 }
 
 void DisegnaTutto()
@@ -79,8 +113,8 @@ void DisegnaTutto()
     glRotatef(-camera.ay, 0, 1, 0);
     glTranslatef(-camera.x, -camera.y, -camera.z);
 
-    printf("Posizione z: %f, x: %f, y: %f, a: %f\n\n",
-           camera.z, camera.x, camera.y, camera.ay);
+    //printf("Posizione z: %f, x: %f, y: %f, a: %f\n\n",
+    //       camera.z, camera.x, camera.y, camera.ay);
 
     //maze.disegnaLineePavimento();
 
@@ -131,13 +165,19 @@ void CambiaDimensione(int width, int height)
 
 void AzioneTasto(unsigned char t, int , int)
 {
+    if(!startGioco)
+    {
+        startGioco = true;
+        tempoInizio = glutGet(GLUT_ELAPSED_TIME);
+    }
+
     switch(t)
     {
         case('w'):
         {
             GLfloat z = -spostamento * cos(camera.ay / pi_180);
             GLfloat x = -spostamento * sin(camera.ay / pi_180);
-            printf("Spostamento z: %f, x: %f\n", z, x);
+            //printf("Spostamento z: %f, x: %f\n", z, x);
             maze.eseguiSpostamento(x, z, camera);
 
         }
@@ -146,7 +186,7 @@ void AzioneTasto(unsigned char t, int , int)
         {
             GLfloat x = -spostamento * cos(-camera.ay / pi_180);
             GLfloat z = -spostamento * sin(-camera.ay / pi_180);;
-            printf("Spostamento z: %f, x: %f\n", z, x);
+            //printf("Spostamento z: %f, x: %f\n", z, x);
             maze.eseguiSpostamento(x, z, camera);
 
         }
@@ -155,7 +195,7 @@ void AzioneTasto(unsigned char t, int , int)
         {
             GLfloat z = spostamento * cos(camera.ay / pi_180);
             GLfloat x = spostamento * sin(camera.ay / pi_180);;
-            printf("Spostamento z: %f, x: %f\n", z, x);
+            //printf("Spostamento z: %f, x: %f\n", z, x);
             maze.eseguiSpostamento(x, z, camera);
 
         }
@@ -164,26 +204,26 @@ void AzioneTasto(unsigned char t, int , int)
         {
             GLfloat x = spostamento * cos(-camera.ay / pi_180);
             GLfloat z = spostamento * sin(-camera.ay / pi_180);;
-            printf("Spostamento z: %f, x: %f\n", z, x);
+            //printf("Spostamento z: %f, x: %f\n", z, x);
             maze.eseguiSpostamento(x, z, camera);
 
         }
             break;
         case('q'):
             camera.ay += angolo;
-            printf("Gira sinistra\n");
+            //printf("Gira sinistra\n");
             break;
         case('e'):
             camera.ay -= angolo;
-            printf("Gira destra\n");
+            //printf("Gira destra\n");
             break;
         case('z'):
             camera.y -= 0.5;
-            printf("Scendi\n");
+            //printf("Scendi\n");
             break;
         case('c'):
             camera.y += 0.5;
-            printf("Sali\n");
+            //printf("Sali\n");
             break;
     }
 

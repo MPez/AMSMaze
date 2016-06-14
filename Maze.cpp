@@ -19,8 +19,8 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z, Camera &camera)
     j = (int) abs(round(camera.x + x + dimCamera * mysign(x)));
 
 
-    printf("Controllo camera.z: %f, camera.x: %f, z: %f, x: %f, i:%i, j: %i\n",
-           z, camera.z, x, camera.x, i, j);
+    //printf("Controllo camera.z: %f, camera.x: %f, z: %f, x: %f, i:%i, j: %i\n",
+    //       z, camera.z, x, camera.x, i, j);
 
     if(!maze[i][j])
     {
@@ -29,7 +29,7 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z, Camera &camera)
     }
     else
     {
-        printf("collisione!!\n");
+        //printf("collisione!!\n");
     }
 }
 
