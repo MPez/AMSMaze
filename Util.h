@@ -13,7 +13,7 @@ static const int windowHeight = 600;
 static const int windowPosX = 100;
 static const int windowPosY = 100;
 
-static const int tempoGioco = 120 * 1000;
+static const int tempoGioco = 5 * 60 * 1000;
 static bool startGioco = false;
 static bool endGioco = false;
 static int secondiAlTermine = 0;

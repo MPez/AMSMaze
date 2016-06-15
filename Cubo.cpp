@@ -35,6 +35,13 @@ void Cubo::impostaMateriale(char materiale)
     glMaterialfv(GL_FRONT, GL_SHININESS, shineMaterial);
 }
 
+void Cubo::setPosizione(GLfloat x, GLfloat y, GLfloat z)
+{
+    Cubo::x = x;
+    Cubo::y = y;
+    Cubo::z = z;
+}
+
 void Cubo::disegna3()
 {
     glPushMatrix();

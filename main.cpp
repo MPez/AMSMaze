@@ -135,6 +135,9 @@ void DisegnaTutto()
     glBindTexture(GL_TEXTURE_2D, 3);
     maze.disegnaMaze(dimCubo);
 
+    glBindTexture(GL_TEXTURE_2D, 4);
+    maze.disegnaPorte(dimCubo);
+
     Cubo::impostaMateriale('l');
     glBindTexture(GL_TEXTURE_2D, 2);
     maze.disegnaPavimento(dimCubo);
@@ -169,7 +172,7 @@ void CambiaDimensione(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 100);
-    gluPerspective(30, r, 0.05, 30.0);
+    gluPerspective(30, r, 0.05, 15.0);
 }
 
 

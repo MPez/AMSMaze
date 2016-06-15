@@ -30,6 +30,8 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
     }
     else
     {
+        camera.z += z;
+        camera.x += x;
         //printf("collisione!!\n");
     }
 }
@@ -53,26 +55,37 @@ bool Maze::isExit()
 
 void Maze::disegnaMaze(GLfloat dim)
 {
+    Cubo cubo(dim, 0, 0, 0);
     for (int i = 0; i < row; ++i)
     {
         for (int j = 0; j < col; ++j)
         {
             if (maze[i][j])
             {
-                Cubo *cubo = new Cubo(dim, j, dim, -i);
-                cubo->disegna3();
+                cubo.setPosizione(j, dim, -i);
+                cubo.disegna3();
             }
         }
     }
 }
 
+void Maze::disegnaPorte(GLfloat dim)
+{
+    Cubo cubo(dim, start_c, dim, -start_r + 1.0f);
+    cubo.disegna3();
+    cubo.setPosizione(end_c + 1.0f, dim, -end_r);
+    cubo.disegna3();
+}
+
 void Maze::disegnaPavimento(GLfloat dim)
 {
-    for (int i = 0; i < row; ++i)
+    int fact = 2;
+    Cubo cubo(dim * fact, dim * fact, 0.05f, 0, 0, 0);
+    for (int i = 0; i <= ceil(row/fact); ++i)
     {
-        for (int j = 0; j < col; ++j)
+        for (int j = 0; j <= ceil(col/fact); ++j)
         {
-            Cubo cubo(dim, dim, 0.05f, j, -0.05f, -i);
+            cubo.setPosizione(j * fact, -0.05f, -i * fact);
             cubo.disegna3();
         }
     }
@@ -80,11 +93,13 @@ void Maze::disegnaPavimento(GLfloat dim)
 
 void Maze::disegnaSoffitto(GLfloat dim)
 {
-    for (int i = 0; i < row; ++i)
+    int fact = 4;
+    Cubo cubo(dim * fact, dim * fact, 0.05f, 0, 0, 0);
+    for (int i = 0; i <= ceil(row/fact); ++i)
     {
-        for (int j = 0; j < col; ++j)
+        for (int j = 0; j <= ceil(col/fact); ++j)
         {
-            Cubo cubo(dim, dim, 0.05f, j, 1.05f, -i);
+            cubo.setPosizione(j * fact, 1.05f, -i * fact);
             cubo.disegna3();
         }
     }

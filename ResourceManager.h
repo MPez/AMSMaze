@@ -14,8 +14,11 @@ private:
     const char *legnoFile = "res/1024/WoodFine0077_2_S.data";
     GLubyte legnoTexture[1024 * 1024 * 3];
 
-    const char *brickFile = "res/1024/BrickSmallPatterns0034_1_S.data";
+    const char *brickFile = "res/1024/BrickSmallNew0034_1_S.data";
     GLubyte brickTexture[1024 * 1024 * 3];
+
+    const char *brickDoorFile = "res/1024/BrickSmallNew0034_1_S_porta.data";
+    GLubyte brickDoorTexture[1024 * 1024 * 3];
 
     const char *ceilConcreteFile = "res/512/PlasterWhite0074_S.data";
     GLubyte ceilConcreteTexture[512 * 512 * 3];

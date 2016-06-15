@@ -33,21 +33,7 @@ public:
 
     void disegna3();
 
-    GLfloat getX() const {
-        return x;
-    }
-
-    GLfloat getZ() const {
-        return z;
-    }
-
-    GLfloat getL() const {
-        return l;
-    }
-
-    GLfloat getW() const {
-        return w;
-    }
+    void setPosizione(GLfloat x, GLfloat y, GLfloat z);
 };
 
 #endif //PROGETTO_CUBO_H

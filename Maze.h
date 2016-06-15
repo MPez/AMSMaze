@@ -28,6 +28,8 @@ public:
 
     void disegnaMaze(GLfloat dim);
 
+    void disegnaPorte(GLfloat dim);
+
     void disegnaPavimento(GLfloat dim);
 
     void disegnaSoffitto(GLfloat dim);
