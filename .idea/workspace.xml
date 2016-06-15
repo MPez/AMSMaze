@@ -14,14 +14,6 @@
   <component name="ChangeListManager">
     <list default="true" id="69377135-360a-497f-bb2b-01c8089687d1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Cubo.cpp" afterPath="$PROJECT_DIR$/Cubo.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Cubo.h" afterPath="$PROJECT_DIR$/Cubo.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Maze.cpp" afterPath="$PROJECT_DIR$/Maze.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Maze.h" afterPath="$PROJECT_DIR$/Maze.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResourceManager.cpp" afterPath="$PROJECT_DIR$/ResourceManager.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResourceManager.h" afterPath="$PROJECT_DIR$/ResourceManager.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Util.h" afterPath="$PROJECT_DIR$/Util.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/output_maze.txt" afterPath="$PROJECT_DIR$/res/output_maze.txt" />
     </list>
     <ignored path="progetto.iws" />
@@ -235,7 +227,24 @@
     </navigator>
     <panes>
       <pane id="ProjectPane">
-        <subPane />
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AMSMaze" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AMSMaze" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AMSMaze" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
       </pane>
     </panes>
   </component>
@@ -498,14 +507,28 @@
       <option name="project" value="LOCAL" />
       <updated>1465940044709</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="aggiunte porte, problema texture">
+      <created>1465952797987</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1465952797987</updated>
+    </task>
+    <task id="LOCAL-00010" summary="aggiunte texture">
+      <created>1465952843680</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1465952843680</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1400" y="0" width="1600" height="900" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15072832" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15072832" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909605" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -545,7 +568,9 @@
     <MESSAGE value="aggiunto timer su barra titolo" />
     <MESSAGE value="inserito labirinto grande" />
     <MESSAGE value="pulizia cartella" />
-    <option name="LAST_COMMIT_MESSAGE" value="pulizia cartella" />
+    <MESSAGE value="aggiunte porte, problema texture" />
+    <MESSAGE value="aggiunte texture" />
+    <option name="LAST_COMMIT_MESSAGE" value="aggiunte texture" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
