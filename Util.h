@@ -27,8 +27,6 @@ static const GLfloat dimCubo = 0.5f;
 static const GLfloat dimCamera = 0.07f;
 static const GLfloat spostamento = 0.25f;
 static const GLfloat angolo = 2.5f;
-static const GLint heightMaze = 15;
-static const GLint widthMaze = 15;
 
 struct Camera
 {

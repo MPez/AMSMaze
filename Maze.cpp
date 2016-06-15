@@ -23,15 +23,15 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
     //printf("Controllo camera.z: %f, camera.x: %f, z: %f, x: %f, i:%i, j: %i\n",
     //       z, camera.z, x, camera.x, i, j);
 
-    if(!maze[i][j])
+    if(!maze[i][j] ||
+            (i == (int) start_r - 1.0f && j == (int) start_c) ||
+            (i == (int) end_r && j == (int) end_c + 1.0f))
     {
         camera.z += z;
         camera.x += x;
     }
     else
     {
-        camera.z += z;
-        camera.x += x;
         //printf("collisione!!\n");
     }
 }
