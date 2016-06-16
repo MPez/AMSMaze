@@ -1,6 +1,9 @@
-//
-// Created by marco on 07/06/16.
-//
+/*
+ * Labirinto 3D
+ * Progetto per insegnamento Sistemi Multimediali
+ * Anno accademico 2015/2016
+ * Pezzutti Marco 1084411
+ */
 
 #include <cstdio>
 #include "ResourceManager.h"
@@ -28,10 +31,18 @@ void ResourceManager::caricaTexture()
 
     texture = fopen(brickDoorFile, "rb");
     if (texture == NULL) {
-        printf("Apertura texture brickSmall fallita.\n");
+        printf("Apertura texture brickDoor fallita.\n");
         return;
     }
     fread(brickDoorTexture, 1024 * 1024, 3, texture);
+    fclose(texture);
+
+    texture = fopen(brickExitDoorFile, "rb");
+    if (texture == NULL) {
+        printf("Apertura texture brickExitDoor fallita.\n");
+        return;
+    }
+    fread(brickExitDoorTexture, 1024 * 1024, 3, texture);
     fclose(texture);
 
     texture = fopen(ceilConcreteFile, "rb");
@@ -45,26 +56,33 @@ void ResourceManager::caricaTexture()
 
 void ResourceManager::impostaTexture()
 {
-    glBindTexture(GL_TEXTURE_2D, 2);
+    glBindTexture(GL_TEXTURE_2D, 1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, legnoTexture);
 
-    glBindTexture(GL_TEXTURE_2D, 3);
+    glBindTexture(GL_TEXTURE_2D, 2);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, brickTexture);
 
-    glBindTexture(GL_TEXTURE_2D, 4);
+    glBindTexture(GL_TEXTURE_2D, 3);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, brickDoorTexture);
+
+    glBindTexture(GL_TEXTURE_2D, 4);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, brickExitDoorTexture);
 
     glBindTexture(GL_TEXTURE_2D, 5);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

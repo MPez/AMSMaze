@@ -1,3 +1,10 @@
+/*
+ * Labirinto 3D
+ * Progetto per insegnamento Sistemi Multimediali
+ * Anno accademico 2015/2016
+ * Pezzutti Marco 1084411
+ */
+
 #include "Cubo.h"
 
 Cubo::Cubo(GLfloat dim, GLfloat x, GLfloat y, GLfloat z)
@@ -42,7 +49,7 @@ void Cubo::setPosizione(GLfloat x, GLfloat y, GLfloat z)
     Cubo::z = z;
 }
 
-void Cubo::disegna3()
+void Cubo::disegna()
 {
     glPushMatrix();
 

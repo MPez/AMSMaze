@@ -1,5 +1,8 @@
-/**
+/*
  * Labirinto 3D
+ * Progetto per insegnamento Sistemi Multimediali
+ * Anno accademico 2015/2016
+ * Pezzutti Marco 1084411
  */
 
 #include <cstdio>
@@ -11,10 +14,16 @@
 #include "ResourceManager.h"
 #include "Maze.h"
 
+/*
+ * Inizializzazione oggetti globali
+ */
 Camera camera;
 Maze maze = Maze(camera);
 ResourceManager resourceManager = ResourceManager();
 
+/*
+ * Definizione funzioni callback usate nel main loop
+ */
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
 void AzioneTasto(unsigned char tasto, int x, int y);
@@ -23,10 +32,19 @@ void TimerFunction(int val);
 
 int main(int argc, char *argv[])
 {
-    maze.parseInput(fileOutput);
+    /*
+     * Lettura labirinto da file pre-generato
+     */
+    maze.parseInput(fileInputBig);
 
+    /*
+     * Impostazione punto di partenza dell'utente (camera) nel labirinto
+     */
     maze.setStart();
 
+    /*
+     * Inizializzazione ambiente e creazione finestra applicazione
+     */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowPosition(windowPosX, windowPosY);
@@ -37,16 +55,31 @@ int main(int argc, char *argv[])
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
+    /*
+     * Impostazione luce globale
+     */
     GLfloat global[] = { 0.1, 0.1, 0.1, 1.0 };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global);
 
+    /*
+     * Colore di sfondo finestra
+     */
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    /*
+     * Impostazione spotlight
+     */
     maze.disegnaLuci();
 
+    /*
+     * Caricamento e impostazione texture
+     */
     resourceManager.caricaTexture();
     resourceManager.impostaTexture();
 
+    /*
+     * Impostazione funzioni callback
+     */
     glutReshapeFunc(CambiaDimensione);
     glutDisplayFunc(DisegnaTutto);
     glutKeyboardFunc(AzioneTasto);
@@ -58,8 +91,12 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+/*
+ * Timer utilizzato per calcolare e visualizzare il tempo trascorso nel gioco
+ */
 void TimerFunction(int val)
 {
+    // gioco iniziato ma non è stata trovata l'uscita
     if(startGioco && !endGioco)
     {
         tempoTrascorso = glutGet(GLUT_ELAPSED_TIME);
@@ -77,12 +114,22 @@ void TimerFunction(int val)
     }
 }
 
+/*
+ * Tiene traccia del tempo che scorre e resetta il giocatore al punto di partenza al termine
+ * del tempo fissato se non è stata trovata l'uscita; incrementa il tempo di gioco
+ * ad ogni tentativo fallito.
+ *
+ * Controlla se viene raggiunta l'uscita e fa terminare il gioco avvisando l'utente, che resta
+ * comunque libero di esplorare il labirinto.
+ * Visualizza sulla barra del titolo il tempo di completamento e il numero di tentativi eseguiti.
+ */
 void IdleFunction()
 {
     if(secondiAlTermine <= 0 && !endGioco)
     {
         maze.setStart();
         startGioco = false;
+        tempoGioco += 1 * 60 * 1000;
         char title[50];
         sprintf(title, "Posizione: %i, %i   -   ",
                 (int) abs(camera.z), (int) abs(camera.x));
@@ -108,6 +155,11 @@ void IdleFunction()
     glutPostRedisplay();
 }
 
+/*
+ * Disegna i cubi che compongono il labirinto, il pavimento ed il soffitto impostando materiali
+ * e texture.
+ * Esegue gli spostamenti del giocatore (camera).
+ */
 void DisegnaTutto()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -127,14 +179,17 @@ void DisegnaTutto()
     glEnable(GL_TEXTURE_2D);
 
     Cubo::impostaMateriale('b');
-    glBindTexture(GL_TEXTURE_2D, 3);
+    glBindTexture(GL_TEXTURE_2D, 2);
     maze.disegnaMaze(dimCubo);
 
+    glBindTexture(GL_TEXTURE_2D, 3);
+    maze.disegnaPortaStart(dimCubo);
+
     glBindTexture(GL_TEXTURE_2D, 4);
-    maze.disegnaPorte(dimCubo);
+    maze.disegnaPortaEnd(dimCubo);
 
     Cubo::impostaMateriale('l');
-    glBindTexture(GL_TEXTURE_2D, 2);
+    glBindTexture(GL_TEXTURE_2D, 1);
     maze.disegnaPavimento(dimCubo);
 
     Cubo::impostaMateriale('c');
@@ -144,6 +199,9 @@ void DisegnaTutto()
     glutSwapBuffers();
 }
 
+/*
+ * Gestisce il ridimensionamento della finestra e imposta la prospettiva della camera.
+ */
 void CambiaDimensione(int width, int height)
 {
     if(width < height)
@@ -168,7 +226,10 @@ void CambiaDimensione(int width, int height)
     gluPerspective(30, 1, 0.05, 15.0);
 }
 
-
+/*
+ * Al primo movimento del giocatore fa iniziare il gioco.
+ * Gestisce i comandi impartiti dal giocatore impostando gli spostamenti corretti.
+ */
 void AzioneTasto(unsigned char t, int , int)
 {
     if(!startGioco)
@@ -224,14 +285,14 @@ void AzioneTasto(unsigned char t, int , int)
             camera.ay -= angolo;
             //printf("Gira destra\n");
             break;
-        case('z'):
-            camera.y -= 0.5;
-            //printf("Scendi\n");
-            break;
-        case('c'):
-            camera.y += 0.5;
-            //printf("Sali\n");
-            break;
+//        case('z'):
+//            camera.y -= 0.5;
+//            //printf("Scendi\n");
+//            break;
+//        case('c'):
+//            camera.y += 0.5;
+//            //printf("Sali\n");
+//            break;
     }
 
     glutPostRedisplay();

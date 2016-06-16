@@ -1,3 +1,10 @@
+/*
+ * Labirinto 3D
+ * Progetto per insegnamento Sistemi Multimediali
+ * Anno accademico 2015/2016
+ * Pezzutti Marco 1084411
+ */
+
 #include <fstream>
 #include <sstream>
 #include <math.h>
@@ -16,13 +23,19 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
 {
     int i, j;
 
+    /*
+     * calcola gli indici della casella in cui si vuole spostare il giocatore
+     */
     i = (int) abs(round(camera.z + z + dimCamera * mysign(z)));
     j = (int) abs(round(camera.x + x + dimCamera * mysign(x)));
-
 
     //printf("Controllo camera.z: %f, camera.x: %f, z: %f, x: %f, i:%i, j: %i\n",
     //       z, camera.z, x, camera.x, i, j);
 
+    /*
+     * controlla se c'è un muro o siamo di fronte alla porta di ingresso o uscita:
+     * in caso negativo esegue lo spostamento
+     */
     if(!maze[i][j] && !isEntrance(i, j) && !isExit(i, j))
     {
         camera.z += z;
@@ -40,7 +53,11 @@ void Maze::setStart()
 
 bool Maze::isExit(int i, int j)
 {
-    if(i == (int) end_r  && (j == (int) end_c || j == (int) end_c + 1.0f || j == (int) end_c - 1.0f))
+    /*
+     * controlla se i parametri corrispondono alla casella di uscita dal labirinto
+     */
+    if(i == (int) end_r  &&
+            (j == (int) end_c || j == (int) end_c + 1.0f || j == (int) end_c - 1.0f))
     {
         return true;
     }
@@ -49,6 +66,9 @@ bool Maze::isExit(int i, int j)
 
 bool Maze::isEntrance(int i, int j)
 {
+    /*
+     * controlla se i parametri corrispondono alla casella di ingresso nel labirinto
+     */
     if(i == (int) start_r && j == (int) start_c)
     {
         return true;
@@ -59,6 +79,7 @@ bool Maze::isEntrance(int i, int j)
 void Maze::disegnaMaze(GLfloat dim)
 {
     Cubo cubo(dim, 0, 0, 0);
+
     for (int i = 0; i < row; ++i)
     {
         for (int j = 0; j < col; ++j)
@@ -66,30 +87,35 @@ void Maze::disegnaMaze(GLfloat dim)
             if (maze[i][j])
             {
                 cubo.setPosizione(j, dim, -i);
-                cubo.disegna3();
+                cubo.disegna();
             }
         }
     }
 }
 
-void Maze::disegnaPorte(GLfloat dim)
+void Maze::disegnaPortaStart(GLfloat dim)
 {
     Cubo cubo(dim, start_c, dim, -start_r);
-    cubo.disegna3();
-    cubo.setPosizione(end_c, dim, -end_r);
-    cubo.disegna3();
+    cubo.disegna();
+}
+
+void Maze::disegnaPortaEnd(GLfloat dim)
+{
+    Cubo cubo(dim, end_c, dim, -end_r);
+    cubo.disegna();
 }
 
 void Maze::disegnaPavimento(GLfloat dim)
 {
     int fact = 2;
     Cubo cubo(dim * fact, dim * fact, 0.05f, 0, 0, 0);
+
     for (int i = 0; i <= ceil(row/fact); ++i)
     {
         for (int j = 0; j <= ceil(col/fact); ++j)
         {
             cubo.setPosizione(j * fact, -0.05f, -i * fact);
-            cubo.disegna3();
+            cubo.disegna();
         }
     }
 }
@@ -98,40 +124,24 @@ void Maze::disegnaSoffitto(GLfloat dim)
 {
     int fact = 4;
     Cubo cubo(dim * fact, dim * fact, 0.05f, 0, 0, 0);
+
     for (int i = 0; i <= ceil(row/fact); ++i)
     {
         for (int j = 0; j <= ceil(col/fact); ++j)
         {
             cubo.setPosizione(j * fact, 1.05f, -i * fact);
-            cubo.disegna3();
+            cubo.disegna();
         }
     }
 }
 
-void Maze::disegnaLineePavimento() {
-    glBegin(GL_LINES);
-    glColor3f(0.0f, 1.0f, 0.0f);
-
-    for(GLfloat i = -200; i < 200; i += 1) {
-        glVertex3f(-200, 0, i);
-        glVertex3f(200, 0, i);
-    }
-
-    for(GLfloat i = -200; i < 200; i += 1) {
-        glVertex3f(i, 0, -200);
-        glVertex3f(i, 0, 200);
-    }
-
-    glEnd();
-}
-
 void Maze::disegnaLuci()
 {
-    GLfloat lightPosition[] = {0.0f, 0.0f, 2.0f, 1.0f};
-    GLfloat spotDirection[] = {0.0f, 0.0f, -1.0f};
+    GLfloat lightPosition[] = {0.0f, 0.0f, 1.0f, 1.0f};
+    GLfloat spotDirection[] = {0.0f, -0.6f, -1.0f};
 
     GLfloat ambientLight[] = {1.0f, 1.0f, 0.6f, 1.0f};
-    GLfloat diffuseLight[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    GLfloat diffuseLight[] = {1.0f, 1.0f, 0.6f, 1.0f};
     GLfloat specularLight[] = {0.5f, 0.6f, 0.6f, 1.0f};
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
