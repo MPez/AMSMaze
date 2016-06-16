@@ -17,6 +17,8 @@ private:
     GLuint col;
     GLfloat start_r;
     GLfloat start_c;
+    GLfloat pos_r;
+    GLfloat pos_c;
     GLfloat end_r;
     GLfloat end_c;
     std::vector<std::vector<GLuint>> maze;
@@ -44,7 +46,9 @@ public:
 
     void setStart();
 
-    bool isExit();
+    bool isExit(int i, int j);
+
+    bool isEntrance(int i, int j);
 };
 
 #endif //PROGETTO_MAZE_H

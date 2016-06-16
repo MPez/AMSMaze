@@ -23,30 +23,33 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
     //printf("Controllo camera.z: %f, camera.x: %f, z: %f, x: %f, i:%i, j: %i\n",
     //       z, camera.z, x, camera.x, i, j);
 
-    if(!maze[i][j] ||
-            (i == (int) start_r - 1.0f && j == (int) start_c) ||
-            (i == (int) end_r && j == (int) end_c + 1.0f))
+    if(!maze[i][j] && !isEntrance(i, j) && !isExit(i, j))
     {
         camera.z += z;
         camera.x += x;
-    }
-    else
-    {
-        //printf("collisione!!\n");
     }
 }
 
 void Maze::setStart()
 {
-    camera.x = start_c;
-    camera.z = -start_r;
+    camera.x = pos_c;
+    camera.z = -pos_r;
     camera.y = dimCubo;
     camera.ay = 0.0f;
 }
 
-bool Maze::isExit()
+bool Maze::isExit(int i, int j)
 {
-    if((int) abs(round(camera.z)) == end_r && (int) abs(round(camera.x)) == end_c)
+    if(i == (int) end_r  && (j == (int) end_c || j == (int) end_c + 1.0f || j == (int) end_c - 1.0f))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Maze::isEntrance(int i, int j)
+{
+    if(i == (int) start_r && j == (int) start_c)
     {
         return true;
     }
@@ -71,9 +74,9 @@ void Maze::disegnaMaze(GLfloat dim)
 
 void Maze::disegnaPorte(GLfloat dim)
 {
-    Cubo cubo(dim, start_c, dim, -start_r + 1.0f);
+    Cubo cubo(dim, start_c, dim, -start_r);
     cubo.disegna3();
-    cubo.setPosizione(end_c + 1.0f, dim, -end_r);
+    cubo.setPosizione(end_c, dim, -end_r);
     cubo.disegna3();
 }
 
@@ -155,7 +158,7 @@ void Maze::parseInput(const char *file)
         std::string line;
         std::getline(input, line);
         std::istringstream sstream(line);
-        sstream >> row >> col >> start_r >> start_c >> end_r >> end_c;
+        sstream >> row >> col >> start_r >> start_c >> pos_r >> pos_c >> end_r >> end_c;
         GLuint intLine;
 
         while(std::getline(input, line))

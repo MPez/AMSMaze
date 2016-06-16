@@ -15,8 +15,6 @@ Camera camera;
 Maze maze = Maze(camera);
 ResourceManager resourceManager = ResourceManager();
 
-GLfloat tempo = 0.0f;
-
 void CambiaDimensione(int width, int height);
 void DisegnaTutto();
 void AzioneTasto(unsigned char tasto, int x, int y);
@@ -25,10 +23,6 @@ void TimerFunction(int val);
 
 int main(int argc, char *argv[])
 {
-    //srand(time(NULL));
-
-    //maze.generaMaze();
-    //maze.stampaMaze();
     maze.parseInput(fileOutput);
 
     maze.setStart();
@@ -96,7 +90,8 @@ void IdleFunction()
         glutSetWindowTitle(title);
     }
 
-    if(maze.isExit())
+    if(maze.isExit((int) abs(round(camera.z + mysign(camera.z) * 0.5f)),
+                   (int) abs(round(camera.x))))
     {
         if(!endGioco)
         {
@@ -151,8 +146,6 @@ void DisegnaTutto()
 
 void CambiaDimensione(int width, int height)
 {
-    GLfloat r = (GLfloat) height / (GLfloat) width;
-
     if(width < height)
     {
         glViewport(0, (height - width)/2, width, width);
@@ -172,7 +165,7 @@ void CambiaDimensione(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glFrustum(-0.25, +0.25, -0.25, +0.25, 1, 100);
-    gluPerspective(30, r, 0.05, 15.0);
+    gluPerspective(30, 1, 0.05, 15.0);
 }
 
 
