@@ -241,6 +241,9 @@ void AzioneTasto(unsigned char t, int , int)
 
     switch(t)
     {
+        /*
+         * avanti
+         */
         case('w'):
         {
             GLfloat z = -spostamento * cos(camera.ay / pi_180);
@@ -250,6 +253,9 @@ void AzioneTasto(unsigned char t, int , int)
 
         }
             break;
+        /*
+         * sinistra
+         */
         case('a'):
         {
             GLfloat x = -spostamento * cos(-camera.ay / pi_180);
@@ -259,6 +265,9 @@ void AzioneTasto(unsigned char t, int , int)
 
         }
             break;
+        /*
+         * indietro
+         */
         case('s'):
         {
             GLfloat z = spostamento * cos(camera.ay / pi_180);
@@ -268,6 +277,9 @@ void AzioneTasto(unsigned char t, int , int)
 
         }
             break;
+        /*
+         * destra
+         */
         case('d'):
         {
             GLfloat x = spostamento * cos(-camera.ay / pi_180);
@@ -277,24 +289,21 @@ void AzioneTasto(unsigned char t, int , int)
 
         }
             break;
+        /*
+         * ruota sinistra
+         */
         case('q'):
             camera.ay += angolo;
             //printf("Gira sinistra\n");
             break;
+        /*
+         * ruota destra
+         */
         case('e'):
             camera.ay -= angolo;
             //printf("Gira destra\n");
             break;
-//        case('z'):
-//            camera.y -= 0.5;
-//            //printf("Scendi\n");
-//            break;
-//        case('c'):
-//            camera.y += 0.5;
-//            //printf("Sali\n");
-//            break;
     }
-
     glutPostRedisplay();
 }
 
