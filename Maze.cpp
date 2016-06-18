@@ -17,8 +17,8 @@
 
 Maze::Maze(Camera &camera) : camera(camera)
 {
-    alarmPosition1[1] = 0.0f;
-    alarmPosition2[1] = 0.0f;
+    alarmPosition1[1] = 0.5f;
+    alarmPosition2[1] = 0.5f;
 }
 
 Maze::~Maze() {}
@@ -44,7 +44,8 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
     {
         camera.z += z;
         camera.x += x;
-        alListener3f(AL_POSITION, camera.x, camera.y, camera.z);
+
+        alListener3f(AL_POSITION, -camera.x, -camera.y, -camera.z);
     }
 }
 
@@ -83,12 +84,12 @@ bool Maze::isEntrance(int i, int j)
 
 int Maze::isAlarm(int i, int j)
 {
-    if(i == alarmPosition1[0] && j == alarmPosition1[2])
+    if(i == alarmPosition1[2] && j == alarmPosition1[0])
     {
         return 1;
     }
 
-    if(i == alarmPosition2[0] && j == alarmPosition2[2])
+    if(i == alarmPosition2[2] && j == alarmPosition2[0])
     {
         return 2;
     }
@@ -148,17 +149,17 @@ void Maze::disegnaAllarmi(GLfloat dim, int alarm)
     switch (alarm)
     {
         case 0:
-            cubo.setPosizione(alarmPosition1[2], -0.05f, -alarmPosition1[0]);
+            cubo.setPosizione(alarmPosition1[0], -0.05f, -alarmPosition1[2]);
             cubo.disegna();
-            cubo.setPosizione(alarmPosition2[2], -0.05f, -alarmPosition2[0]);
+            cubo.setPosizione(alarmPosition2[0], -0.05f, -alarmPosition2[2]);
             cubo.disegna();
             break;
         case 1:
-            cubo.setPosizione(alarmPosition1[2], -0.05f, -alarmPosition1[0]);
+            cubo.setPosizione(alarmPosition1[0], -0.05f, -alarmPosition1[2]);
             cubo.disegna();
             break;
         case 2:
-            cubo.setPosizione(alarmPosition2[2], -0.05f, -alarmPosition2[0]);
+            cubo.setPosizione(alarmPosition2[0], -0.05f, -alarmPosition2[2]);
             cubo.disegna();
             break;
     }
@@ -215,7 +216,7 @@ void Maze::parseInput(const char *file)
         sstream >> row >> col >> start_r >> start_c >> pos_r >> pos_c >> end_r >> end_c;
         std::getline(input, line);
         sstream = std::istringstream(line);
-        sstream >> alarmPosition1[0] >> alarmPosition1[2] >> alarmPosition2[0] >> alarmPosition2[2];
+        sstream >> alarmPosition1[2] >> alarmPosition1[0] >> alarmPosition2[2] >> alarmPosition2[0];
         GLuint intLine;
 
         while(std::getline(input, line))

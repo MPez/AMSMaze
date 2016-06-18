@@ -12,9 +12,20 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69377135-360a-497f-bb2b-01c8089687d1" name="Default" comment="">
+    <list default="true" id="69377135-360a-497f-bb2b-01c8089687d1" name="Default" comment="aggiornato readme">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/BrickSmallPatterns0034_1_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/BrickSmallPatterns0034_1_S_porta.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/ConcreteBare0309_1_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/ConcreteBare0323_1_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/ConcreteBare0355_1_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/ConcreteStucco0095_1_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/1024/ConcreteStucco0099_1_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/512/FloorsMarble0023_S.data" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/512/FloorsMarble0034_7_S.data" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Maze.cpp" afterPath="$PROJECT_DIR$/Maze.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Suono.cpp" afterPath="$PROJECT_DIR$/Suono.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
     </list>
     <ignored path="progetto.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,11 +48,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.49525017">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/main.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3000">
-                  <caret line="200" column="74" selection-start-line="200" selection-start-column="74" selection-end-line="200" selection-end-column="74" />
+                <state relative-caret-position="570">
+                  <caret line="194" column="5" selection-start-line="194" selection-start-column="5" selection-end-line="194" selection-end-column="5" />
                   <folding>
                     <element signature="e#129#146#0" expanded="true" />
                   </folding>
@@ -49,27 +60,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/README.md">
-              <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-                <state split_layout="FIRST">
-                  <first_editor relative-caret-position="193">
-                    <caret line="36" column="78" selection-start-line="36" selection-start-column="78" selection-end-line="36" selection-end-column="78" />
-                    <folding />
-                  </first_editor>
-                  <second_editor />
-                </state>
-              </provider>
-              <provider editor-type-id="MarkdownFxPreviewEditor">
-                <state />
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Util.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Util.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="27" column="84" selection-start-line="27" selection-start-column="84" selection-end-line="27" selection-end-column="84" />
+                <state relative-caret-position="171">
+                  <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
                   <folding />
                 </state>
               </provider>
@@ -78,11 +73,9 @@
           <file leaf-file-name="Maze.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Maze.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2040">
+                <state relative-caret-position="323">
                   <caret line="136" column="30" selection-start-line="136" selection-start-column="30" selection-end-line="136" selection-end-column="30" />
-                  <folding>
-                    <element signature="e#178#198#0" expanded="true" />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -100,8 +93,8 @@
           <file leaf-file-name="Suono.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Suono.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="750">
-                  <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
+                <state relative-caret-position="516">
+                  <caret line="60" column="24" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
                   <folding>
                     <element signature="e#179#199#0" expanded="true" />
                   </folding>
@@ -109,30 +102,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="input_maze_big.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/res/input_maze_big.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="input_maze.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/res/input_maze.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="ResourceManager.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/ResourceManager.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="525">
+                <state relative-caret-position="216">
                   <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
                   <folding>
                     <element signature="e#198#215#0" expanded="true" />
@@ -145,21 +118,23 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Suono.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Suono.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Suono.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1020">
-                  <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
-                  <folding />
+                <state relative-caret-position="975">
+                  <caret line="65" column="45" selection-start-line="65" selection-start-column="45" selection-end-line="65" selection-end-column="45" />
+                  <folding>
+                    <element signature="e#128#145#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Maze.cpp" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Maze.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Maze.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+                <state relative-caret-position="-2303">
+                  <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
                   <folding>
                     <element signature="e#129#147#0" expanded="true" />
                   </folding>
@@ -223,13 +198,13 @@
         <option value="$PROJECT_DIR$/ResourceManager.cpp" />
         <option value="$PROJECT_DIR$/res/input_maze.txt" />
         <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/Maze.h" />
+        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Maze.cpp" />
+        <option value="$PROJECT_DIR$/Util.h" />
         <option value="$PROJECT_DIR$/Suono.h" />
         <option value="$PROJECT_DIR$/Suono.cpp" />
-        <option value="$PROJECT_DIR$/Util.h" />
-        <option value="$PROJECT_DIR$/Maze.h" />
         <option value="$PROJECT_DIR$/main.cpp" />
-        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -606,7 +581,14 @@
       <option name="project" value="LOCAL" />
       <updated>1466269561057</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="aggiornato readme">
+      <created>1466270387527</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1466270387527</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -659,7 +641,8 @@
     <MESSAGE value="sistemata uscita ed entrata labirinto" />
     <MESSAGE value="aggiunti allarmi" />
     <MESSAGE value="aggiunti commenti" />
-    <option name="LAST_COMMIT_MESSAGE" value="aggiunti commenti" />
+    <MESSAGE value="aggiornato readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="aggiornato readme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -668,17 +651,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Game.cpp" />
-    <entry file="file://$PROJECT_DIR$/ResourceManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="38" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
-          <folding>
-            <element signature="e#129#146#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -690,9 +662,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
-          <folding>
-            <element signature="e#178#198#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -796,9 +766,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
-          <folding>
-            <element signature="e#178#198#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -838,16 +806,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ResourceManager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-          <folding>
-            <element signature="e#198#215#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ResourceManager.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1590">
@@ -858,52 +816,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/input_maze.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="64" selection-start-line="3" selection-start-column="64" selection-end-line="3" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/input_maze_big.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Suono.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Suono.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
-          <folding>
-            <element signature="e#179#199#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Util.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="84" selection-start-line="27" selection-start-column="84" selection-end-line="27" selection-end-column="84" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -923,32 +839,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Maze.cpp">
+    <entry file="file://$PROJECT_DIR$/res/input_maze.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
-          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/input_maze_big.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/GL/freeglut_std.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7305">
+          <caret line="569" column="34" selection-start-line="569" selection-start-column="29" selection-end-line="569" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/GL/glut.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Maze.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="136" column="30" selection-start-line="136" selection-start-column="30" selection-end-line="136" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Util.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Suono.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="516">
+          <caret line="60" column="24" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
+          <folding>
+            <element signature="e#179#199#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Maze.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2303">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding>
             <element signature="e#129#147#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Maze.h">
+    <entry file="file://$PROJECT_DIR$/Suono.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="136" column="30" selection-start-line="136" selection-start-column="30" selection-end-line="136" selection-end-column="30" />
+        <state relative-caret-position="975">
+          <caret line="65" column="45" selection-start-line="65" selection-start-column="45" selection-end-line="65" selection-end-column="45" />
           <folding>
-            <element signature="e#178#198#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3000">
-          <caret line="200" column="74" selection-start-line="200" selection-start-column="74" selection-end-line="200" selection-end-column="74" />
-          <folding>
-            <element signature="e#129#146#0" expanded="true" />
+            <element signature="e#128#145#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -970,6 +930,26 @@
             <folding />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ResourceManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
+          <folding>
+            <element signature="e#198#215#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="194" column="5" selection-start-line="194" selection-start-column="5" selection-end-line="194" selection-end-column="5" />
+          <folding>
+            <element signature="e#129#146#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -4,6 +4,7 @@
  * Anno accademico 2015/2016
  * Pezzutti Marco 1084411
  */
+#include <math.h>
 
 #include "Suono.h"
 
@@ -11,9 +12,9 @@ Suono::Suono(Camera &camera, Maze &maze) : camera(camera), maze(maze)
 {
     listenerOrientation[0] = 0.0f;
     listenerOrientation[1] = 0.0f;
-    listenerOrientation[2] = -1.0f;
+    listenerOrientation[2] = 1.0f;
     listenerOrientation[3] = 0.0f;
-    listenerOrientation[4] = 1.0f;
+    listenerOrientation[4] = -1.0f;
     listenerOrientation[5] = 0.0f;
 }
 
@@ -55,7 +56,7 @@ void Suono::spegniSuono(int suono)
 
 void Suono::setStart()
 {
-    alListener3f(AL_POSITION, camera.x, camera.y, camera.z);
+    alListener3f(AL_POSITION, -camera.x, -camera.y, -camera.z);
     alListenerfv(AL_ORIENTATION, listenerOrientation);
 }
 
@@ -63,7 +64,7 @@ void Suono::setOrientation()
 {
     GLfloat mMatrix[16];
     glGetFloatv(GL_MODELVIEW_MATRIX,mMatrix);
-    ALfloat listenerOrientation[] = {-mMatrix[2],-mMatrix[6],-mMatrix[10],
-                                     mMatrix[1],mMatrix[5],mMatrix[9]};
-    alListenerfv(AL_ORIENTATION, listenerOrientation);
+    ALfloat listenerOri[] = {mMatrix[8], mMatrix[9], mMatrix[10],
+                             mMatrix[4], mMatrix[5], mMatrix[6]};
+    alListenerfv(AL_ORIENTATION, listenerOri);
 }

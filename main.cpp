@@ -213,6 +213,7 @@ void DisegnaTutto()
 
     glRotatef(-camera.ay, 0, 1, 0);
     glTranslatef(-camera.x, -camera.y, -camera.z);
+    suono.setOrientation();
 
     //printf("Posizione z: %f, x: %f, y: %f, a: %f\n\n",
     //       camera.z, camera.x, camera.y, camera.ay);
@@ -353,7 +354,6 @@ void AzioneTasto(unsigned char t, int , int)
         {
             camera.ay += angolo;
             //printf("Gira sinistra\n");
-            suono.setOrientation();
         }
             break;
         /*
@@ -363,12 +363,12 @@ void AzioneTasto(unsigned char t, int , int)
         {
             camera.ay -= angolo;
             //printf("Gira destra\n");
-            suono.setOrientation();
         }
             break;
     }
     glutPostRedisplay();
 }
+
 
 
 
