@@ -11,11 +11,15 @@
 #include <iostream>
 #include <stack>
 #include <stdlib.h>
+#include <AL/alut.h>
 
 #include "Maze.h"
 
 Maze::Maze(Camera &camera) : camera(camera)
-{}
+{
+    militaryPos[1] = 0.0f;
+    alarmPos[1] = 0.0f;
+}
 
 Maze::~Maze() {}
 
@@ -36,10 +40,11 @@ void Maze::eseguiSpostamento(GLfloat x, GLfloat z)
      * controlla se c'è un muro o siamo di fronte alla porta di ingresso o uscita:
      * in caso negativo esegue lo spostamento
      */
-    if(!maze[i][j] && !isEntrance(i, j) && !isExit(i, j))
+    if(maze[i][j] != 1 && !isEntrance(i, j) && !isExit(i, j))
     {
         camera.z += z;
         camera.x += x;
+        alListener3f(AL_POSITION, camera.x, camera.y, camera.z);
     }
 }
 
@@ -76,6 +81,20 @@ bool Maze::isEntrance(int i, int j)
     return false;
 }
 
+int Maze::isAlarm(int i, int j)
+{
+    if(i == militaryPos[0] && j == militaryPos[2])
+    {
+        return 1;
+    }
+
+    if(i == alarmPos[0] && j == alarmPos[2])
+    {
+        return 2;
+    }
+    return 0;
+}
+
 void Maze::disegnaMaze(GLfloat dim)
 {
     Cubo cubo(dim, 0, 0, 0);
@@ -84,7 +103,7 @@ void Maze::disegnaMaze(GLfloat dim)
     {
         for (int j = 0; j < col; ++j)
         {
-            if (maze[i][j])
+            if (maze[i][j] == 1)
             {
                 cubo.setPosizione(j, dim, -i);
                 cubo.disegna();
@@ -107,16 +126,41 @@ void Maze::disegnaPortaEnd(GLfloat dim)
 
 void Maze::disegnaPavimento(GLfloat dim)
 {
-    int fact = 2;
-    Cubo cubo(dim * fact, dim * fact, 0.05f, 0, 0, 0);
+    Cubo cubo(dim, dim, 0.05f, 0, 0, 0);
 
-    for (int i = 0; i <= ceil(row/fact); ++i)
+    for (int i = 0; i < row; ++i)
     {
-        for (int j = 0; j <= ceil(col/fact); ++j)
+        for (int j = 0; j < col; ++j)
         {
-            cubo.setPosizione(j * fact, -0.05f, -i * fact);
-            cubo.disegna();
+            if(maze[i][j] == 0 || maze[i][j] == 2)
+            {
+                cubo.setPosizione(j, -0.05f, -i);
+                cubo.disegna();
+            }
         }
+    }
+}
+
+void Maze::disegnaAllarmi(GLfloat dim, int alarm)
+{
+    Cubo cubo(dim, dim, 0.05f, 0, 0, 0);
+
+    switch (alarm)
+    {
+        case 0:
+            cubo.setPosizione(militaryPos[2], -0.05f, -militaryPos[0]);
+            cubo.disegna();
+            cubo.setPosizione(alarmPos[2], -0.05f, -alarmPos[0]);
+            cubo.disegna();
+            break;
+        case 1:
+            cubo.setPosizione(militaryPos[2], -0.05f, -militaryPos[0]);
+            cubo.disegna();
+            break;
+        case 2:
+            cubo.setPosizione(alarmPos[2], -0.05f, -alarmPos[0]);
+            cubo.disegna();
+            break;
     }
 }
 
@@ -169,6 +213,9 @@ void Maze::parseInput(const char *file)
         std::getline(input, line);
         std::istringstream sstream(line);
         sstream >> row >> col >> start_r >> start_c >> pos_r >> pos_c >> end_r >> end_c;
+        std::getline(input, line);
+        sstream = std::istringstream(line);
+        sstream >> militaryPos[0] >> militaryPos[2] >> alarmPos[0] >> alarmPos[2];
         GLuint intLine;
 
         while(std::getline(input, line))

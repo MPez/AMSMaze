@@ -25,27 +25,36 @@ static const GLfloat dimCamera = 0.07f;
 static const GLfloat spostamento = 0.25f;
 static const GLfloat angolo = 2.5f;
 
+static const char *militaryAlarmFile = "res/96973__kizilsungur__military-alarm.wav";
+static const char *alarmFile = "res/345815__vendarro__alarm-no.wav";
+static const char *nuclearAlarmFile = "242856__plasterbrain__nuclear-alarm.wav";
+static const char *synthAlarmFile = "185199__nackhe__synth-alarm.wav";
+
 /*
  * Variabili globali
  */
 static int tempoGioco = 5 * 60 * 1000;
 static bool startGioco = false;
 static bool endGioco = false;
-static int secondiAlTermine = 1;
+static bool restart = false;
+static int secondiAlTermine = 0;
 static int tempoTrascorso = 0;
 static int tempoInizio = 0;
 static int tempoFine = 0;
 static int tentativi = 0;
+
+static bool militaryAlarmOn = 1;
+static bool alarmOn = 1;
 
 /*
  * Struttura che rappresenta la posizione della camera/giocatore
  */
 struct Camera
 {
-    GLfloat x = 0.0f;
-    GLfloat y = 0.0f;
-    GLfloat z = 0.0f;
-    GLfloat ay = 0.0f;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    float ay = 0.0f;
 };
 
 /*

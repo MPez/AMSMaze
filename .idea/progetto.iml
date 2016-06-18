@@ -10,6 +10,8 @@
       <sourceFolder url="file://$MODULE_DIR$/ResourceManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ResourceManager.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Cubo.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Suono.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Suono.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Maze.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

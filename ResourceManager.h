@@ -10,6 +10,7 @@
 
 #include <string>
 #include <GL/glut.h>
+#include <AL/al.h>
 
 /**
  * Classe che gestisce il caricamento e l'impostazione delle texture
@@ -31,6 +32,9 @@ private:
     const char *legnoFile = "res/1024/WoodFine0077_2_S.data";
     GLubyte legnoTexture[1024 * 1024 * 3];
 
+    const char *legnoRedFile = "res/1024/WoodFine0077_2_S_red.data";
+    GLubyte legnoRedTexture[1024 * 1024 * 3];
+
     const char *brickFile = "res/1024/BrickSmallNew0034_1_S.data";
     GLubyte brickTexture[1024 * 1024 * 3];
 
@@ -42,7 +46,6 @@ private:
 
     const char *ceilConcreteFile = "res/512/PlasterWhite0074_S.data";
     GLubyte ceilConcreteTexture[512 * 512 * 3];
-
 
 public:
     /**

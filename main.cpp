@@ -7,12 +7,14 @@
 
 #include <cstdio>
 #include <math.h>
-#include <GL/glut.h>
 #include <cstring>
+#include <GL/glut.h>
+#include <AL/alut.h>
 
 #include "Cubo.h"
 #include "ResourceManager.h"
 #include "Maze.h"
+#include "Suono.h"
 
 /*
  * Inizializzazione oggetti globali
@@ -20,6 +22,7 @@
 Camera camera;
 Maze maze = Maze(camera);
 ResourceManager resourceManager = ResourceManager();
+Suono suono = Suono(camera, maze);
 
 /*
  * Definizione funzioni callback usate nel main loop
@@ -50,6 +53,9 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(windowPosX, windowPosY);
     glutInitWindowSize(windowWidth, windowHeight);
     glutCreateWindow(titolo);
+
+    alutInit (&argc, argv);
+    suono.impostaSuoni();
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -103,7 +109,7 @@ void TimerFunction(int val)
         secondiAlTermine = (tempoGioco - tempoTrascorso + tempoInizio) / 1000;
         char title[50];
         sprintf(title, "Tempo: %i   -   Posizione: %i, %i   -   ",
-                secondiAlTermine, (int) abs(camera.z), (int) abs(camera.x));
+                secondiAlTermine, (int) abs(round(camera.z)), (int) abs(round(camera.x)));
         strcat(title, titolo);
         glutSetWindowTitle(title);
         glutTimerFunc(250, TimerFunction, 0);
@@ -125,10 +131,11 @@ void TimerFunction(int val)
  */
 void IdleFunction()
 {
-    if(secondiAlTermine <= 0 && !endGioco)
+    if(secondiAlTermine <= 0 && !endGioco && restart)
     {
         maze.setStart();
         startGioco = false;
+        restart = false;
         tempoGioco += 1 * 60 * 1000;
         char title[50];
         sprintf(title, "Posizione: %i, %i   -   ",
@@ -138,7 +145,8 @@ void IdleFunction()
     }
 
     if(maze.isExit((int) abs(round(camera.z + mysign(camera.z) * 0.5f)),
-                   (int) abs(round(camera.x))))
+                   (int) abs(round(camera.x))) &&
+            !militaryAlarmOn && !alarmOn)
     {
         if(!endGioco)
         {
@@ -150,6 +158,24 @@ void IdleFunction()
             (tempoFine - tempoInizio) / 1000, tentativi, (tentativi > 1 ? 'i' : 'o'));
         strcat(title, titolo);
         glutSetWindowTitle(title);
+    }
+
+    if(militaryAlarmOn || alarmOn)
+    {
+        int alarm = maze.isAlarm((int) abs(round(camera.z)), (int) abs(round(camera.x)));
+        switch (alarm)
+        {
+            case 0:
+                break;
+            case 1:
+                militaryAlarmOn = 0;
+                suono.spegniSuono(1);
+                break;
+            case 2:
+                alarmOn = 0;
+                suono.spegniSuono(2);
+                break;
+        }
     }
 
     glutPostRedisplay();
@@ -191,6 +217,18 @@ void DisegnaTutto()
     Cubo::impostaMateriale('l');
     glBindTexture(GL_TEXTURE_2D, 1);
     maze.disegnaPavimento(dimCubo);
+
+    if(militaryAlarmOn)
+    {
+        glBindTexture(GL_TEXTURE_2D, 6);
+    }
+    maze.disegnaAllarmi(dimCubo, 1);
+
+    if(!alarmOn)
+    {
+        glBindTexture(GL_TEXTURE_2D, 1);
+    }
+    maze.disegnaAllarmi(dimCubo, 2);
 
     Cubo::impostaMateriale('c');
     glBindTexture(GL_TEXTURE_2D, 5);
@@ -235,6 +273,7 @@ void AzioneTasto(unsigned char t, int , int)
     if(!startGioco)
     {
         startGioco = true;
+        restart = true;
         tempoInizio = glutGet(GLUT_ELAPSED_TIME);
         tentativi += 1;
     }
@@ -293,15 +332,29 @@ void AzioneTasto(unsigned char t, int , int)
          * ruota sinistra
          */
         case('q'):
+        {
             camera.ay += angolo;
             //printf("Gira sinistra\n");
+            GLfloat mMatrix[16];
+            glGetFloatv(GL_MODELVIEW_MATRIX,mMatrix);
+            ALfloat listenerOrientation[] = {-mMatrix[2],-mMatrix[6],-mMatrix[10],
+                                             mMatrix[1],mMatrix[5],mMatrix[9]};
+            alListenerfv(AL_ORIENTATION, listenerOrientation);
+        }
             break;
         /*
          * ruota destra
          */
         case('e'):
+        {
             camera.ay -= angolo;
             //printf("Gira destra\n");
+            GLfloat mMatrix[16];
+            glGetFloatv(GL_MODELVIEW_MATRIX,mMatrix);
+            ALfloat listenerOrientation[] = {-mMatrix[2],-mMatrix[6],-mMatrix[10],
+                                             mMatrix[1],mMatrix[5],mMatrix[9]};
+            alListenerfv(AL_ORIENTATION, listenerOrientation);
+        }
             break;
     }
     glutPostRedisplay();

@@ -11,6 +11,6 @@ set(SOURCE_FILES
         Maze.h
         ResourceManager.cpp
         ResourceManager.h
-        Util.h)
+        Util.h Suono.cpp Suono.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

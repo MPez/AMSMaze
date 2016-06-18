@@ -35,11 +35,11 @@ La barra del titolo mostra costantemente informazioni rigurdanti il gioco:
 - prima che venga fatto il primo spostamento:
   - nome dell'applicazione;
 - durante il gioco:
-  - il tempo rimanente per uscire;
+  - il tempo rimanente per trovare l'uscita;
   - la posizione del giocatore nel labirinto;
   - nome dell'applicazione;
 - a gioco terminato:
   - congratulazioni all'utente;
   - secondi impiegati a trovare l'uscita nel tentativo corrente;
   - numero tentativi effettuati;
-  - nome dell'applicazione;
+  - nome dell'applicazione.

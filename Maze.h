@@ -9,6 +9,7 @@
 #define PROGETTO_MAZE_H
 
 #include <GL/glut.h>
+#include <AL/alut.h>
 #include <vector>
 #include <string>
 #include "Util.h"
@@ -38,6 +39,8 @@ private:
     GLfloat pos_c;
     GLfloat end_r;
     GLfloat end_c;
+    ALfloat militaryPos[3];
+    ALfloat alarmPos[3];
     std::vector<std::vector<GLuint>> maze;
     Camera &camera;
 
@@ -121,6 +124,18 @@ public:
      * @param j indice di colonna del labirinto
      */
     bool isEntrance(int i, int j);
+
+    const ALfloat *getMilitaryPos() const {
+        return militaryPos;
+    }
+
+    const ALfloat *getAlarmPos() const {
+        return alarmPos;
+    }
+
+    void disegnaAllarmi(GLfloat dim, int alarm);
+
+    int isAlarm(int i, int j);
 };
 
 #endif //PROGETTO_MAZE_H

@@ -1,7 +1,7 @@
 CC=g++
-CPPFLAGS=-lGL -lGLU -lglut
+CPPFLAGS=-lGL -lGLU -lglut -lalut -lopenal
 
-SOURCES=main.cpp Cubo.cpp Maze.cpp ResourceManager.cpp
+SOURCES=main.cpp Cubo.cpp Maze.cpp ResourceManager.cpp Suono.cpp
 EXECUTABLE=AMSmaze
 
 all:
