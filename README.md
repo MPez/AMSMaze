@@ -30,10 +30,11 @@ Sono possibili 6 tipo di movimenti all'interno del labirinto, mappati con specif
 - d  compie uno spostamento a destra;
 - q compie una rotazione verso sinistra;
 - e compie una rotazione verso destra.
+
 Prima di essere effettuato ogni spostamento viene controllato con lo scopo di evitare collisioni con muri e porte di ingresso e uscita.
 
 È stata implementata una luce globale molto debole, che permette di avere una minima visione anche nelle parti più buie del labirinto, e una spotlight che simula la presenza di una torcia in mano al giocatore, di colore tendente al giallo e puntata leggermente verso il basso.
-Sono state realizzate 5 diverse texture per muri, soffitto, pavimento e porte di ingresso e uscita con materiali diversi per aumentare il grado di realismo della scena.
+Sono state realizzate 6 diverse texture per muri, soffitto, pavimento, allarmi e porte di ingresso e uscita con materiali diversi per aumentare il grado di realismo della scena.
 
 Sono stati aggiunti due sorgenti sonore che riproducono lo stesso suono e identificano un allarme da spegnere visibile all'utente mediante una casella del pavimento colorata di rosso.
 Gli allarmi sono spazializzati aiutando l'utente a capire la distanza e la direzione da cui provengono facilitando la loro disattivazione che si compie posizionandosi sopra alla casella di allarme.
