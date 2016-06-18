@@ -39,8 +39,8 @@ private:
     GLfloat pos_c;
     GLfloat end_r;
     GLfloat end_c;
-    ALfloat militaryPos[3];
-    ALfloat alarmPos[3];
+    ALfloat alarmPosition1[3];
+    ALfloat alarmPosition2[3];
     std::vector<std::vector<GLuint>> maze;
     Camera &camera;
 
@@ -70,11 +70,16 @@ public:
     void disegnaPortaEnd(GLfloat dim);
 
     /**
-     * Disegna il pavimento del labirinto usando cubi
+     * Disegna il pavimento del labirinto usando cubi tranne nella posizione degli allarmi
      *
      * @param dim dimensione del cubo
      */
     void disegnaPavimento(GLfloat dim);
+
+    /**
+     * Disegna il pavimento relativo ai due allarmi
+     */
+    void disegnaAllarmi(GLfloat dim, int alarm);
 
     /**
      * Disegna il soffitto del labirinto usando cubi
@@ -125,17 +130,25 @@ public:
      */
     bool isEntrance(int i, int j);
 
-    const ALfloat *getMilitaryPos() const {
-        return militaryPos;
-    }
-
-    const ALfloat *getAlarmPos() const {
-        return alarmPos;
-    }
-
-    void disegnaAllarmi(GLfloat dim, int alarm);
-
+    /**
+     * Controlla se gli indici corrispondo alla posizione di un allarme;
+     * ritorna il numero dell'allarme in caso affermativo, altrimenti ritorna 0
+     */
     int isAlarm(int i, int j);
+
+    /**
+     * Ritorna la posizione del primo allarme
+     */
+    const ALfloat *getAlarmPosition1() const {
+        return alarmPosition1;
+    }
+
+    /**
+     * Ritorna la posizione del secondo allarme
+     */
+    const ALfloat *getAlarmPosition2() const {
+        return alarmPosition2;
+    }
 };
 
 #endif //PROGETTO_MAZE_H

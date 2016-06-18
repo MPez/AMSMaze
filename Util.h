@@ -26,9 +26,6 @@ static const GLfloat spostamento = 0.25f;
 static const GLfloat angolo = 2.5f;
 
 static const char *militaryAlarmFile = "res/96973__kizilsungur__military-alarm.wav";
-static const char *alarmFile = "res/345815__vendarro__alarm-no.wav";
-static const char *nuclearAlarmFile = "242856__plasterbrain__nuclear-alarm.wav";
-static const char *synthAlarmFile = "185199__nackhe__synth-alarm.wav";
 
 /*
  * Variabili globali
@@ -43,8 +40,9 @@ static int tempoInizio = 0;
 static int tempoFine = 0;
 static int tentativi = 0;
 
-static bool militaryAlarmOn = 1;
-static bool alarmOn = 1;
+static bool alarmOn1 = 1;
+static bool alarmOn2 = 1;
+static int allarmiRimanenti = 2;
 
 /*
  * Struttura che rappresenta la posizione della camera/giocatore

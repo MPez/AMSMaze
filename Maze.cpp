@@ -17,8 +17,8 @@
 
 Maze::Maze(Camera &camera) : camera(camera)
 {
-    militaryPos[1] = 0.0f;
-    alarmPos[1] = 0.0f;
+    alarmPosition1[1] = 0.0f;
+    alarmPosition2[1] = 0.0f;
 }
 
 Maze::~Maze() {}
@@ -83,12 +83,12 @@ bool Maze::isEntrance(int i, int j)
 
 int Maze::isAlarm(int i, int j)
 {
-    if(i == militaryPos[0] && j == militaryPos[2])
+    if(i == alarmPosition1[0] && j == alarmPosition1[2])
     {
         return 1;
     }
 
-    if(i == alarmPos[0] && j == alarmPos[2])
+    if(i == alarmPosition2[0] && j == alarmPosition2[2])
     {
         return 2;
     }
@@ -148,17 +148,17 @@ void Maze::disegnaAllarmi(GLfloat dim, int alarm)
     switch (alarm)
     {
         case 0:
-            cubo.setPosizione(militaryPos[2], -0.05f, -militaryPos[0]);
+            cubo.setPosizione(alarmPosition1[2], -0.05f, -alarmPosition1[0]);
             cubo.disegna();
-            cubo.setPosizione(alarmPos[2], -0.05f, -alarmPos[0]);
+            cubo.setPosizione(alarmPosition2[2], -0.05f, -alarmPosition2[0]);
             cubo.disegna();
             break;
         case 1:
-            cubo.setPosizione(militaryPos[2], -0.05f, -militaryPos[0]);
+            cubo.setPosizione(alarmPosition1[2], -0.05f, -alarmPosition1[0]);
             cubo.disegna();
             break;
         case 2:
-            cubo.setPosizione(alarmPos[2], -0.05f, -alarmPos[0]);
+            cubo.setPosizione(alarmPosition2[2], -0.05f, -alarmPosition2[0]);
             cubo.disegna();
             break;
     }
@@ -215,7 +215,7 @@ void Maze::parseInput(const char *file)
         sstream >> row >> col >> start_r >> start_c >> pos_r >> pos_c >> end_r >> end_c;
         std::getline(input, line);
         sstream = std::istringstream(line);
-        sstream >> militaryPos[0] >> militaryPos[2] >> alarmPos[0] >> alarmPos[2];
+        sstream >> alarmPosition1[0] >> alarmPosition1[2] >> alarmPosition2[0] >> alarmPosition2[2];
         GLuint intLine;
 
         while(std::getline(input, line))

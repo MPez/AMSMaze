@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     maze.setStart();
 
     /*
-     * Inizializzazione ambiente e creazione finestra applicazione
+     * Inizializzazione ambiente openGL e creazione finestra applicazione
      */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -54,6 +54,9 @@ int main(int argc, char *argv[])
     glutInitWindowSize(windowWidth, windowHeight);
     glutCreateWindow(titolo);
 
+    /*
+     * Inizializzazione ambiente openAL
+     */
     alutInit (&argc, argv);
     suono.impostaSuoni();
 
@@ -108,8 +111,9 @@ void TimerFunction(int val)
         tempoTrascorso = glutGet(GLUT_ELAPSED_TIME);
         secondiAlTermine = (tempoGioco - tempoTrascorso + tempoInizio) / 1000;
         char title[50];
-        sprintf(title, "Tempo: %i   -   Posizione: %i, %i   -   ",
-                secondiAlTermine, (int) abs(round(camera.z)), (int) abs(round(camera.x)));
+        sprintf(title, "Tempo: %i  -  Posizione: %i, %i  -  Allarmi: %i  -  ",
+                secondiAlTermine, (int) abs(round(camera.z)), (int) abs(round(camera.x)),
+        allarmiRimanenti);
         strcat(title, titolo);
         glutSetWindowTitle(title);
         glutTimerFunc(250, TimerFunction, 0);
@@ -128,17 +132,20 @@ void TimerFunction(int val)
  * Controlla se viene raggiunta l'uscita e fa terminare il gioco avvisando l'utente, che resta
  * comunque libero di esplorare il labirinto.
  * Visualizza sulla barra del titolo il tempo di completamento e il numero di tentativi eseguiti.
+ *
+ * Controlla se il giocatore è in una casella di allarme e in caso affermativo lo spegne.
  */
 void IdleFunction()
 {
     if(secondiAlTermine <= 0 && !endGioco && restart)
     {
         maze.setStart();
+        suono.setStart();
         startGioco = false;
         restart = false;
         tempoGioco += 1 * 60 * 1000;
         char title[50];
-        sprintf(title, "Posizione: %i, %i   -   ",
+        sprintf(title, "Posizione: %i, %i  -  ",
                 (int) abs(camera.z), (int) abs(camera.x));
         strcat(title, titolo);
         glutSetWindowTitle(title);
@@ -146,7 +153,7 @@ void IdleFunction()
 
     if(maze.isExit((int) abs(round(camera.z + mysign(camera.z) * 0.5f)),
                    (int) abs(round(camera.x))) &&
-            !militaryAlarmOn && !alarmOn)
+            !alarmOn1 && !alarmOn2)
     {
         if(!endGioco)
         {
@@ -154,13 +161,13 @@ void IdleFunction()
             tempoFine = glutGet(GLUT_ELAPSED_TIME);
         }
         char title[100];
-        sprintf(title, "Vittoria!!!   -   Completato in %i secondi e %i tentativ%c   -   ",
+        sprintf(title, "Vittoria!!!  -  Completato in %i secondi e %i tentativ%c  -  ",
             (tempoFine - tempoInizio) / 1000, tentativi, (tentativi > 1 ? 'i' : 'o'));
         strcat(title, titolo);
         glutSetWindowTitle(title);
     }
 
-    if(militaryAlarmOn || alarmOn)
+    if(alarmOn1 || alarmOn2)
     {
         int alarm = maze.isAlarm((int) abs(round(camera.z)), (int) abs(round(camera.x)));
         switch (alarm)
@@ -168,23 +175,34 @@ void IdleFunction()
             case 0:
                 break;
             case 1:
-                militaryAlarmOn = 0;
-                suono.spegniSuono(1);
+                if(alarmOn1)
+                {
+                    allarmiRimanenti -= 1;
+                    alarmOn1 = 0;
+                    suono.spegniSuono(1);
+                }
                 break;
             case 2:
-                alarmOn = 0;
-                suono.spegniSuono(2);
+                if(alarmOn2)
+                {
+                    allarmiRimanenti -= 1;
+                    alarmOn2 = 0;
+                    suono.spegniSuono(2);
+                }
                 break;
         }
+
     }
 
     glutPostRedisplay();
 }
 
 /*
+ * Esegue gli spostamenti del giocatore (camera): traslazioni e rotazioni.
+ *
  * Disegna i cubi che compongono il labirinto, il pavimento ed il soffitto impostando materiali
- * e texture.
- * Esegue gli spostamenti del giocatore (camera).
+ * e texture; nella posizione degli allarmi viene applicata una texture diversa fintanto che
+ * l'allarme è attivo.
  */
 void DisegnaTutto()
 {
@@ -218,13 +236,13 @@ void DisegnaTutto()
     glBindTexture(GL_TEXTURE_2D, 1);
     maze.disegnaPavimento(dimCubo);
 
-    if(militaryAlarmOn)
+    if(alarmOn1)
     {
         glBindTexture(GL_TEXTURE_2D, 6);
     }
     maze.disegnaAllarmi(dimCubo, 1);
 
-    if(!alarmOn)
+    if(!alarmOn2)
     {
         glBindTexture(GL_TEXTURE_2D, 1);
     }
@@ -335,11 +353,7 @@ void AzioneTasto(unsigned char t, int , int)
         {
             camera.ay += angolo;
             //printf("Gira sinistra\n");
-            GLfloat mMatrix[16];
-            glGetFloatv(GL_MODELVIEW_MATRIX,mMatrix);
-            ALfloat listenerOrientation[] = {-mMatrix[2],-mMatrix[6],-mMatrix[10],
-                                             mMatrix[1],mMatrix[5],mMatrix[9]};
-            alListenerfv(AL_ORIENTATION, listenerOrientation);
+            suono.setOrientation();
         }
             break;
         /*
@@ -349,11 +363,7 @@ void AzioneTasto(unsigned char t, int , int)
         {
             camera.ay -= angolo;
             //printf("Gira destra\n");
-            GLfloat mMatrix[16];
-            glGetFloatv(GL_MODELVIEW_MATRIX,mMatrix);
-            ALfloat listenerOrientation[] = {-mMatrix[2],-mMatrix[6],-mMatrix[10],
-                                             mMatrix[1],mMatrix[5],mMatrix[9]};
-            alListenerfv(AL_ORIENTATION, listenerOrientation);
+            suono.setOrientation();
         }
             break;
     }
