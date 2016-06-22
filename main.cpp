@@ -24,6 +24,8 @@ Maze maze = Maze(camera);
 ResourceManager resourceManager = ResourceManager();
 Suono suono = Suono(camera, maze);
 
+GLuint mazeList, ceilList;
+
 /*
  * Definizione funzioni callback usate nel main loop
  */
@@ -33,12 +35,36 @@ void AzioneTasto(unsigned char tasto, int x, int y);
 void IdleFunction();
 void TimerFunction(int val);
 
+void disegnaMazeList()
+{
+    Cubo::impostaMateriale('b');
+    glBindTexture(GL_TEXTURE_2D, 2);
+    maze.disegnaMaze(dimCubo);
+
+    glBindTexture(GL_TEXTURE_2D, 3);
+    maze.disegnaPortaStart(dimCubo);
+
+    glBindTexture(GL_TEXTURE_2D, 4);
+    maze.disegnaPortaEnd(dimCubo);
+
+    Cubo::impostaMateriale('l');
+    glBindTexture(GL_TEXTURE_2D, 1);
+    maze.disegnaPavimento(dimCubo);
+}
+
+void disegnaCeilList()
+{
+    Cubo::impostaMateriale('c');
+    glBindTexture(GL_TEXTURE_2D, 5);
+    maze.disegnaSoffitto(dimCubo);
+}
+
 int main(int argc, char *argv[])
 {
     /*
      * Lettura labirinto da file pre-generato
      */
-    maze.parseInput(fileInputBig);
+    maze.parseInput(fileInput);
 
     /*
      * Impostazione punto di partenza dell'utente (camera) nel labirinto
@@ -85,6 +111,16 @@ int main(int argc, char *argv[])
      */
     resourceManager.caricaTexture();
     resourceManager.impostaTexture();
+
+    mazeList = glGenLists(1);
+    glNewList(mazeList, GL_COMPILE);
+    disegnaMazeList();
+    glEndList();
+
+    ceilList = glGenLists(1);
+    glNewList(ceilList, GL_COMPILE);
+    disegnaCeilList();
+    glEndList();
 
     /*
      * Impostazione funzioni callback
@@ -223,19 +259,7 @@ void DisegnaTutto()
 
     glEnable(GL_TEXTURE_2D);
 
-    Cubo::impostaMateriale('b');
-    glBindTexture(GL_TEXTURE_2D, 2);
-    maze.disegnaMaze(dimCubo);
-
-    glBindTexture(GL_TEXTURE_2D, 3);
-    maze.disegnaPortaStart(dimCubo);
-
-    glBindTexture(GL_TEXTURE_2D, 4);
-    maze.disegnaPortaEnd(dimCubo);
-
-    Cubo::impostaMateriale('l');
-    glBindTexture(GL_TEXTURE_2D, 1);
-    maze.disegnaPavimento(dimCubo);
+    glCallList(mazeList);
 
     if(alarmOn1)
     {
@@ -249,9 +273,7 @@ void DisegnaTutto()
     }
     maze.disegnaAllarmi(dimCubo, 2);
 
-    Cubo::impostaMateriale('c');
-    glBindTexture(GL_TEXTURE_2D, 5);
-    maze.disegnaSoffitto(dimCubo);
+    glCallList(ceilList);
 
     glutSwapBuffers();
 }
